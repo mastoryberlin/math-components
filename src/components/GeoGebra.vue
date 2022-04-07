@@ -393,7 +393,7 @@ export default {
     this.applet = applet
   },
   created() {
-    init();
+    this.init();
     
     appletsCount += 1
     console.log('Increasing appletsCount -> ' + appletsCount)
