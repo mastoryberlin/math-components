@@ -392,14 +392,14 @@ export default {
     )
     this.applet = applet
   },
-  created() {
-    this.init();
-    
+  created() {    
     appletsCount += 1
     console.log('Increasing appletsCount -> ' + appletsCount)
     this.instanceNumber = appletsCount
   },
   mounted() {
+    this.init();
+
     const { applet, id } = this
     console.log('Injecting applet into DIV with id ' + id)
     this.$nextTick(() => { applet.inject(id) })
