@@ -1,2 +1,2 @@
-exports.GeoGebra = require("./src/components/GeoGebra.vue");
-exports.Formula = require("./src/components/Formula.vue");
+export { default as GeoGebra } from "./src/components/GeoGebra.vue";
+export { default as Formula } from "./src/components/Formula.vue";
