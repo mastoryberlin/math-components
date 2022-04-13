@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./src --ext .js,.ts,.vue",
+    "lint:fix": "eslint ./src --ext .js,.ts,.vue --fix"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,13 @@
   "bugs": {
     "url": "https://github.com/mastoryberlin/math-components/issues"
   },
-  "homepage": "https://github.com/mastoryberlin/math-components#readme"
+  "homepage": "https://github.com/mastoryberlin/math-components#readme",
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.4.1",
+    "eslint-plugin-vue": "^7.20.0",
+    "prettier": "^2.6.2"
+  }
 }
