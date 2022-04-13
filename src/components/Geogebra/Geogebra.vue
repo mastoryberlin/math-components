@@ -27,7 +27,7 @@ export default {
     },
     xml: {
       type: String,
-      default: null
+      default: null,
     },
     allowZoom: {
       type: Array,
@@ -185,7 +185,7 @@ export default {
       showZoomButtons: false,
       showFullscreenButton: true,
       clickToLoad: false,
-      editorBackgroundColor: "#000000",
+      editorBackgroundColor: '#000000',
     }
 
     if (src) { params.filename = src }
@@ -376,7 +376,7 @@ export default {
           set viewRect(v) { self.setViewRect(v) },
           get xml() { return self.api.getXML() },
           set xml(v) { self.api.setXML(v) },
-          api
+          api,
         })
         this.registerListeners()
         this.$emit('load')
@@ -392,13 +392,13 @@ export default {
     )
     this.applet = applet
   },
-  created() {    
+  created() {
     appletsCount += 1
     console.log('Increasing appletsCount -> ' + appletsCount)
     this.instanceNumber = appletsCount
   },
   mounted() {
-    this.init();
+    this.init()
 
     const { applet, id } = this
     console.log('Injecting applet into DIV with id ' + id)
@@ -410,8 +410,8 @@ export default {
   },
 
   methods: {
-    init () {
-      let GeogebraScript = document.createElement('script')
+    init() {
+      const GeogebraScript = document.createElement('script')
       GeogebraScript.setAttribute('src', 'https://www.geogebra.org/apps/deployggb.js')
       document.head.appendChild(GeogebraScript)
     },
@@ -495,7 +495,8 @@ export default {
             // enough to check xScale only
             const scale = props.invXscale
             if (scale < allowZoom[0] || scale > allowZoom[1]) {
-              let { xMin, yMin, width, height, invXscale } = this.previousViewProps
+              const { width, height, invXscale } = this.previousViewProps
+              let { xMin, yMin } = this.previousViewProps
               const w = width * invXscale, h = height * invXscale
               if (props.xMin >= allowPan.x[0] && props.xMin + w <= allowPan.x[1]) { xMin = props.xMin }
               if (props.yMin >= allowPan.y[0] && props.yMin + h <= allowPan.y[1]) { yMin = props.yMin }
@@ -505,7 +506,7 @@ export default {
               this.$emit('zoom', scale)
             }
 
-            const w = width * scale 
+            const w = width * scale
             const h = height * scale
 
             let adjust = false
@@ -524,13 +525,13 @@ export default {
               yMin = allowPan.y[1] - h
               adjust = true
             }
-  
+
             if (adjust) {
               api.setCoordSystem(xMin, xMin + w, yMin, yMin + h)
             }
 
             this.previousViewProps = props
-            this.$emit('pan', { x: [ xMin, xMin + w ], y: [ yMin, yMin + h ] })
+            this.$emit('pan', { x: [xMin, xMin + w], y: [yMin, yMin + h] })
           }
           break
 
@@ -639,11 +640,13 @@ export default {
     getViewRect() {
       const { xMin, yMin, width, height, invXscale } = JSON.parse(this.api.getViewProperties())
       return {
-        x: [ xMin, xMin + width * invXscale ],
-        y: [ yMin, yMin + height * invXscale ]
+        x: [xMin, xMin + width * invXscale],
+        y: [yMin, yMin + height * invXscale],
       }
     },
-    setViewRect({x, y, contain}) {
+    setViewRect({ x, y, contain }) {
+      if (!x || !x) { return } ;
+
       const w = x[1] - x[0], h = y[1] - y[0]
       if (w <= 0 || h <= 0) {
         console.warn('Ignoring viewRect prop: Invalid ranges')
@@ -663,7 +666,7 @@ export default {
         }
         this.api.setCoordSystem(x[0], x[1], y[0], y[1])
       }
-    }
+    },
   },
   render(createElement) {
     const { id } = this

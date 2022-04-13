@@ -1,14 +1,15 @@
 <template lang="html">
-  <component :is="WorksheetComponent" />
+  <div class="empty-wrapper">
+    <component :is="WorksheetComponent" />
+  </div>
 </template>
 
 <script>
-import GeoGebra from "./GeoGebra.vue"
-import Formula from "./Formula.vue"
+import { Geogebra, Formula} from '../'
 
 export default {
   name: 'Worksheet',
-  components: { GeoGebra, Formula },
+  components: { Geogebra, Formula },
   props: {
     template: {
       type: String,
@@ -23,6 +24,7 @@ export default {
       default: '',
     },
   },
+  emit: ['submit'],
   computed: {
     WorksheetComponent() {
       // eslint-disable-next-line no-new-func
@@ -31,12 +33,29 @@ export default {
 
       return {
         ...options,
-        components: { ...components, GeoGebra, Formula },
+        components: { ...components, Geogebra, Formula },
         data: () => data.constructor === Function ? data() : data,
-        template: `<div>${this.template}</div>`,
-        styles: this.stylesheet,
+        template: `<div id="previewArea">${this.template}</div>`,
       }
     },
   },
+  mounted() {
+    window.submit = output => this.$emit('submit', { output })
+    setTimeout(() => {
+      const previewArea = document.getElementById('previewArea')
+      if (previewArea && previewArea.firstChild) {
+        const cssRules = this.stylesheet
+        const styleElement = document.createElement('style')
+        styleElement.appendChild(document.createTextNode(cssRules))
+        previewArea.firstChild.appendChild(styleElement)
+      }
+    }, 500)
+  },
 }
 </script>
+
+<style>
+&-app > *:not(.ggb-container) {
+  all: initial !important;
+}
+</style>
