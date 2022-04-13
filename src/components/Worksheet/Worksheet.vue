@@ -5,15 +5,15 @@
 </template>
 
 <script>
-import { Geogebra, Formula} from '../'
+import { Geogebra, Formula } from "../";
 
 export default {
-  name: 'Worksheet',
+  name: "Worksheet",
   components: { Geogebra, Formula },
   props: {
     template: {
       type: String,
-      default: '<div/>',
+      default: "<div/>",
     },
     script: {
       type: String,
@@ -21,37 +21,37 @@ export default {
     },
     stylesheet: {
       type: String,
-      default: '',
+      default: "",
     },
   },
-  emit: ['submit'],
+  emit: ["submit"],
   computed: {
     WorksheetComponent() {
       // eslint-disable-next-line no-new-func
-      const options = new Function(`return {${this.script}}`)()
-      const { components, data = {} } = options
+      const options = new Function(`return {${this.script}}`)();
+      const { components, data = {} } = options;
 
       return {
         ...options,
         components: { ...components, Geogebra, Formula },
-        data: () => data.constructor === Function ? data() : data,
+        data: () => (data.constructor === Function ? data() : data),
         template: `<div id="previewArea">${this.template}</div>`,
-      }
+      };
     },
   },
   mounted() {
-    window.submit = output => this.$emit('submit', { output })
+    window.submit = (output) => this.$emit("submit", { output });
     setTimeout(() => {
-      const previewArea = document.getElementById('previewArea')
+      const previewArea = document.getElementById("previewArea");
       if (previewArea && previewArea.firstChild) {
-        const cssRules = this.stylesheet
-        const styleElement = document.createElement('style')
-        styleElement.appendChild(document.createTextNode(cssRules))
-        previewArea.firstChild.appendChild(styleElement)
+        const cssRules = this.stylesheet;
+        const styleElement = document.createElement("style");
+        styleElement.appendChild(document.createTextNode(cssRules));
+        previewArea.firstChild.appendChild(styleElement);
       }
-    }, 500)
+    }, 500);
   },
-}
+};
 </script>
 
 <style>
