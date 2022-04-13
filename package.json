@@ -1,5 +1,5 @@
 {
-  "name": "shared-components",
+  "name": "math-components",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mastoryberlin/shared-components.git"
+    "url": "git+https://github.com/mastoryberlin/math-components.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mastoryberlin/shared-components/issues"
+    "url": "https://github.com/mastoryberlin/math-components/issues"
   },
-  "homepage": "https://github.com/mastoryberlin/shared-components#readme"
+  "homepage": "https://github.com/mastoryberlin/math-components#readme"
 }
