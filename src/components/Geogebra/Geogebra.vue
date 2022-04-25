@@ -29,10 +29,20 @@ export default {
       type: String,
       default: null,
     },
+
     allowZoom: {
       type: Array,
       default: () => [0, 1],
     },
+    allowZoomY: {
+      type: Boolean,
+      default: false,
+    },
+    allowZoomX: {
+      type: Boolean,
+      default: false,
+    },
+
     allowPan: {
       type: Object,
       default: () => ({
@@ -182,7 +192,7 @@ export default {
       showMenuBar: false,
       showAlgebraInput: false,
       showToolBarHelp: false,
-      showZoomButtons: false,
+      showZoomButtons: true,
       showFullscreenButton: true,
       clickToLoad: false,
       editorBackgroundColor: "#000000",
@@ -652,88 +662,7 @@ export default {
           break;
 
         case "viewChanged2D":
-          {
-            const props = JSON.parse(api.getViewProperties());
-
-            let { xMin, yMin } = props;
-            const { width, height } = props;
-
-            const { allowZoom, allowPan } = this;
-
-            if (!this.previousViewProps) {
-              let scale = props.invXscale;
-              if (scale < allowZoom[0]) {
-                scale = allowZoom[0];
-              } else if (scale > allowZoom[1]) {
-                scale = allowZoom[1];
-              }
-              this.previousViewProps = {
-                ...props,
-                invXscale: scale,
-                invYscale: scale,
-              };
-              api.setCoordSystem(
-                xMin,
-                xMin + width * scale,
-                yMin,
-                yMin + height * scale
-              );
-              return;
-            }
-
-            // assuming xScale / yScale is fixed, it is
-            // enough to check xScale only
-            const scale = props.invXscale;
-            if (scale < allowZoom[0] || scale > allowZoom[1]) {
-              const { width, height, invXscale } = this.previousViewProps;
-              let { xMin, yMin } = this.previousViewProps;
-              const w = width * invXscale,
-                h = height * invXscale;
-              if (
-                props.xMin >= allowPan.x[0] &&
-                props.xMin + w <= allowPan.x[1]
-              ) {
-                xMin = props.xMin;
-              }
-              if (
-                props.yMin >= allowPan.y[0] &&
-                props.yMin + h <= allowPan.y[1]
-              ) {
-                yMin = props.yMin;
-              }
-              api.setCoordSystem(xMin, xMin + w, yMin, yMin + h);
-              return;
-            } else if (scale !== this.previousViewProps.invXscale) {
-              this.$emit("zoom", scale);
-            }
-
-            const w = width * scale;
-            const h = height * scale;
-
-            let adjust = false;
-            if (xMin < allowPan.x[0]) {
-              xMin = allowPan.x[0];
-              adjust = true;
-            } else if (xMin + w > allowPan.x[1]) {
-              xMin = allowPan.x[1] - w;
-              adjust = true;
-            }
-
-            if (yMin < allowPan.y[0]) {
-              yMin = allowPan.y[0];
-              adjust = true;
-            } else if (yMin + h > allowPan.y[1]) {
-              yMin = allowPan.y[1] - h;
-              adjust = true;
-            }
-
-            if (adjust) {
-              api.setCoordSystem(xMin, xMin + w, yMin, yMin + h);
-            }
-
-            this.previousViewProps = props;
-            this.$emit("pan", { x: [xMin, xMin + w], y: [yMin, yMin + h] });
-          }
+          this.handleViewChanged2D();
           break;
 
         case "dragEnd":
@@ -811,6 +740,119 @@ export default {
       }
     },
 
+    handleViewChanged2D() {
+      const { api } = this;
+      const properties = JSON.parse(api.getViewProperties());
+
+      if (!this.previousViewProps)
+        return (this.previousViewProps = { ...properties });
+
+      const { invXscale, invYscale } = properties;
+      const { invXscale: prevInvXscale, invYscale: prevInvYscale } =
+        this.previousViewProps;
+
+      const getNumDigits = (num) => {
+        return Math.floor(num * 100) / 100;
+      };
+
+      if (
+        getNumDigits(invXscale) === getNumDigits(prevInvXscale) &&
+        getNumDigits(invYscale) === getNumDigits(prevInvYscale)
+      )
+        return this.handlePan();
+      else return this.handleZoom();
+    },
+
+    handleZoom() {
+      console.log("handleZoom ==>");
+      const { allowZoom, allowPan, allowZoomY, allowZoomX, api } = this;
+      const { height, width, invXscale, invYscale } = JSON.parse(
+        api.getViewProperties()
+      );
+
+      const { invXscale: prevInvXscale, invYscale: prevInvYscale } =
+        this.previousViewProps;
+      const w = width * prevInvXscale;
+      const h = height * prevInvYscale;
+
+      if (!allowZoom || (!allowZoomY && !allowZoomX)) {
+        let { xMin, yMin } = this.previousViewProps;
+
+        const prevXMax = Math.floor((xMin + w) * 10) / 10;
+        const prevYMax = Math.floor((yMin + h) * 10) / 10;
+
+        const prevYMin = Math.floor(yMin * 10) / 10;
+        const prevXMin = Math.floor(xMin * 10) / 10;
+
+        console.log(
+          "handleZoom ==> false",
+          prevXMin,
+          prevXMax,
+          prevYMin,
+          prevYMax
+        );
+        return api.setCoordSystem(prevXMin, prevXMax, prevYMin, prevYMax);
+      }
+
+      // const { xMin, yMin } = JSON.parse(api.getViewProperties());
+
+      // if (xMin >= allowPan.x[0] && xMin + w <= allowPan.x[1])
+      //   prevXMin = xMin;
+
+      // if (yMin >= allowPan.y[0] && yMin + h <= allowPan.y[1])
+      //   prevYMin = yMin;
+
+      this.$emit("zoom");
+      // console.log("handleZoom ==>", prevXMin, prevXMin + w, prevYMin, prevYMin + h);
+      // return api.setCoordSystem(prevXMin, prevXMin + w, prevYMin, prevYMin + h);
+    },
+
+    handlePan() {
+      console.log("handlePan ==>");
+      // const { allowPan, api } = this;
+
+      // const properties = JSON.parse(api.getViewProperties());
+      // let { xMin, yMin, invXscale, invYscale, height, width } = properties;
+
+      // if (true) return api.setCoordSystem(xMin, xMin + width * invXscale, yMin, yMin + height * invYscale);
+      // if (!allowPan) return;
+
+      // const { api } = this;
+      // const properties = JSON.parse(api.getViewProperties());
+
+      // let { xMin, yMin } = properties;
+      // const { width, height } = properties;
+
+      // assuming xScale / yScale is fixed, it is
+      // enough to check xScale only
+      // const scale = properties.invXscale;
+
+      // const w = width * scale;
+      // const h = height * scale;
+
+      // let adjust = false;
+      // if (xMin < allowPan.x[0]) {
+      //   xMin = allowPan.x[0];
+      //   adjust = true;
+      // } else if (xMin + w > allowPan.x[1]) {
+      //   xMin = allowPan.x[1] - w;
+      //   adjust = true;
+      // }
+
+      // if (yMin < allowPan.y[0]) {
+      //   yMin = allowPan.y[0];
+      //   adjust = true;
+      // } else if (yMin + h > allowPan.y[1]) {
+      //   yMin = allowPan.y[1] - h;
+      //   adjust = true;
+      // }
+
+      // if (adjust) api.setCoordSystem(xMin, xMin + w, yMin, yMin + h);
+
+      // this.previousViewProps = properties;
+      // this.$emit("pan", { x: [xMin, xMin + w], y: [yMin, yMin + h] });
+    },
+
     addListener(objectName) {
       if (this.api) {
         this.updateOutputs();
@@ -858,6 +900,7 @@ export default {
         y: [yMin, yMin + height * invXscale],
       };
     },
+
     setViewRect({ x, y, contain }) {
       if (!x || !x) {
         return;
