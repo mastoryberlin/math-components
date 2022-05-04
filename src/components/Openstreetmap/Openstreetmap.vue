@@ -39,7 +39,9 @@ export default {
       default: () => [0, 0],
     },
   },
+
   emits: ["input", "change", "change:pan", "change:zoom"],
+
   computed: {
     width: function () {
       const { displayWidth } = this;
@@ -71,58 +73,65 @@ export default {
     },
   },
 
-  mounted() {
-    this.init();
-
-    const { ol } = window;
-    const { Map, layer, View, source, interaction } = ol; // proj
-
-    this.internalValue = new Map({
-      target: this.container,
-      layers: [new layer.Tile({ source: new source.OSM() })],
-      view: new View({
-        center: this.initialCenter, // proj.fromLonLat([37.41, 8.82])
-        zoom: this.initialZoom,
-      }),
-      interactions: [
-        new interaction.DragPan({
-          condition: (event) => {
-            this.$emit("change", event);
-            this.$emit("change:pan", event);
-            return this.isAllowPan;
-          },
-        }),
-
-        new interaction.MouseWheelZoom({
-          condition: (event) => {
-            this.$emit("change", event);
-            this.$emit("change:zoom", event);
-            return this.isAllowZoom;
-          },
-        }),
-      ],
-    });
+  created() {
+    this.setup(this.initialConfig);
   },
 
   methods: {
-    init() {
-      const URL =
+    setup(loadInitialConfig) {
+      const URL_SCRIPTS =
         "https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js";
+
+      const URL_STYLE =
+        "https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css";
+
       const scripts = [...document.getElementsByTagName("script")];
+      if (scripts.some(({ src }) => src !== URL_SCRIPTS)) {
+        const OpenStreetMapScript = document.createElement("script");
+        OpenStreetMapScript.onload = () => loadInitialConfig();
+        OpenStreetMapScript.setAttribute("src", URL_SCRIPTS);
+        document.head.appendChild(OpenStreetMapScript);
+      }
 
-      if (scripts.some(({ src }) => src === URL)) return;
+      const styles = [...document.getElementsByTagName("link")];
+      if (styles.some(({ href }) => href !== URL_STYLE)) {
+        const OpenStreetMapStyles = document.createElement("link");
+        OpenStreetMapStyles.setAttribute("href", URL_STYLE);
+        OpenStreetMapStyles.setAttribute("rel", "stylesheet");
+        document.head.appendChild(OpenStreetMapStyles);
+      }
+    },
 
-      const OpenStreetMapScript = document.createElement("script");
-      OpenStreetMapScript.setAttribute("src", URL);
-      document.head.appendChild(OpenStreetMapScript);
+    initialConfig() {
+      const openlayer = window.ol;
+      const { Map, layer, View, source, interaction } = openlayer; // proj
+
+      this.internalValue = new Map({
+        target: this.container,
+        layers: [new layer.Tile({ source: new source.OSM() })],
+        view: new View({
+          center: this.initialCenter, // proj.fromLonLat([37.41, 8.82])
+          zoom: this.initialZoom,
+        }),
+        interactions: [
+          new interaction.DragPan({
+            condition: (event) => {
+              this.$emit("change", event);
+              this.$emit("change:pan", event);
+              return this.isAllowPan;
+            },
+          }),
+
+          new interaction.MouseWheelZoom({
+            condition: (event) => {
+              this.$emit("change", event);
+              this.$emit("change:zoom", event);
+              return this.isAllowZoom;
+            },
+          }),
+        ],
+      });
     },
   },
 };
 </script>
-
-<style>
-.map {
-  width: 100%;
-  height: auto;
-}
-</style>
