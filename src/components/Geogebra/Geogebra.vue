@@ -573,11 +573,13 @@ export default {
 
   methods: {
     init() {
+      const URL = "https://www.geogebra.org/apps/deployggb.js";
+      const scripts = [...document.getElementsByTagName("script")];
+
+      if (scripts.some(({ src }) => src === URL)) return;
+
       const GeogebraScript = document.createElement("script");
-      GeogebraScript.setAttribute(
-        "src",
-        "https://www.geogebra.org/apps/deployggb.js"
-      );
+      GeogebraScript.setAttribute("src", URL);
       document.head.appendChild(GeogebraScript);
     },
 
