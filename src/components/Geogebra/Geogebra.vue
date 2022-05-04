@@ -169,9 +169,11 @@ export default {
     },
 
     initialConfig() {
+      const self = this;
+
       appletsCount += 1;
       console.log("Increasing appletsCount -> " + appletsCount);
-      this.instanceNumber = appletsCount;
+      self.instanceNumber = appletsCount;
 
       // Retrieve all props (or their default values) from instance
       const {
@@ -196,7 +198,7 @@ export default {
         disableAutoScale,
         allowUpscale,
         buttonShadows,
-      } = this;
+      } = self;
 
       const params = {
         scaleContainerClass: "ggb-container",
@@ -514,7 +516,7 @@ export default {
       if (!xml) {
         // If xml prop is set, use this to load previous state
         // – if not, execute any GGB commands passed to the default slot as text content
-        const slot = this.$slots.default;
+        const slot = self.$slots.default;
         if (slot && slot.length > 0) {
           const pre = slot[0];
           if (pre && pre.tag === "pre") {
@@ -528,9 +530,9 @@ export default {
 
       params.appletOnLoad = (api) => {
         if (api) {
-          this.api = api;
+          self.api = api;
 
-          const { value } = this;
+          const { value } = self;
           if (xml) {
             api.setXML(xml);
           } else {
@@ -541,30 +543,30 @@ export default {
             });
           }
 
-          if (this.viewRect) {
-            this.setViewRect(this.viewRect);
+          if (self.viewRect) {
+            self.setViewRect(self.viewRect);
           }
 
           // Make API object accessible from v-model bound variable
-          const self = this;
-          this.$emit("input", {
+          const _self = self;
+          self.$emit("input", {
             ...value,
             get viewRect() {
-              return self.getViewRect();
+              return _self.getViewRect();
             },
             set viewRect(v) {
-              self.setViewRect(v);
+              _self.setViewRect(v);
             },
             get xml() {
-              return self.api.getXML();
+              return _self.api.getXML();
             },
             set xml(v) {
-              self.api.setXML(v);
+              _self.api.setXML(v);
             },
             api,
           });
-          this.registerListeners();
-          this.$emit("load");
+          self.registerListeners();
+          self.$emit("load");
         }
       };
       // Create GGB applet
@@ -575,11 +577,11 @@ export default {
         "https://www.geogebra.org/images/GeoGebra_loading.png",
         "https://www.geogebra.org/images/applet_play.png"
       );
-      this.applet = applet;
+      self.applet = applet;
 
-      const { id } = this;
+      const { id } = self;
       console.log("Injecting applet into DIV with id " + id);
-      this.$nextTick(() => applet.inject(id));
+      self.$nextTick(() => applet.inject(id));
     },
 
     registerListeners() {
