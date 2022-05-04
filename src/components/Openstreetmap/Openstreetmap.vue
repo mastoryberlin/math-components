@@ -103,10 +103,12 @@ export default {
     },
 
     initialConfig() {
+      const self = this;
+
       const openlayer = window.ol;
       const { Map, layer, View, source, interaction } = openlayer; // proj
 
-      this.internalValue = new Map({
+      self.internalValue = new Map({
         target: this.container,
         layers: [new layer.Tile({ source: new source.OSM() })],
         view: new View({
