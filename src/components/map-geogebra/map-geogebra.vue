@@ -10,7 +10,7 @@
     />
     <div class="map-geogebra__stacked">
       <geogebra
-        v-model="ggb"
+        :value="value"
         :transparent="true"
         :display-width="osmWidth"
         :display-height="osmHeight"
@@ -20,16 +20,17 @@
         :xml="xml"
         :src="src"
         :toolbar="toolbar"
+        @input="$emit('input', $event)"
         @load="onLoad"
         @pan="onPan"
         @zoom="onZoom"
-        @add="$emit('add')"
-        @remove="$emit('remove')"
-        @update="$emit('update')"
-        @select="$emit('select')"
-        @deselect="$emit('deselect')"
-        @click="$emit('click')"
-        @drop="$emit('drop')"
+        @add="$emit('add', $event)"
+        @remove="$emit('remove', $event)"
+        @update="$emit('update', $event)"
+        @select="$emit('select', $event)"
+        @deselect="$emit('deselect', $event)"
+        @click="$emit('click', $event)"
+        @drop="$emit('drop', $event)"
       >
         <!-- Use the src argument to load a Geogebra worksheet from a URL
         Also, anything inside the pre tag will be constructed on top of that -->
@@ -52,6 +53,10 @@ export default {
     Openstreetmap,
   },
   props: {
+    value: {
+      type: Object,
+      default: () => ({ inputs: {}, outputs: {} }),
+    },
     displayWidth: {
       type: [Number, String],
       default: '100%',
@@ -87,7 +92,6 @@ export default {
     },
   },
   data: () => ({
-    ggb: { api: null },
     osm: null,
     osmWidth: null,
     osmHeight: null,
@@ -125,12 +129,13 @@ export default {
         view.fit(extent)
       }
     },
-    onLoad() {
+    onLoad(e) {
       this.$nextTick(() => {
         const s = document.getElementById('map').getClientRects()[0]
         this.osmWidth = s.width
         this.osmHeight = s.height
       })
+      this.$emit('load', e)
     },
     onPan(viewRect) {
       const { x, y } = viewRect
@@ -156,7 +161,7 @@ export default {
       if (osm) {
         const view = osm.getView()
         if (view) {
-          const { ggb: { viewRect: { x, y }} } = this
+          const { value: { viewRect: { x, y }} } = this
           const extent = [x[0], y[0], x[1], y[1]]
           view.fit(extent)
         } else {
