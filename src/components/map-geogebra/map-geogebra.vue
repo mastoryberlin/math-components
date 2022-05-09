@@ -40,12 +40,13 @@
 </template>
 
 <script>
-import { Geogebra, Openstreetmap } from 'math-components'
+import { Geogebra, Openstreetmap } from '../'
 
 const LATITUDES = [-90, 90]
 const LONGITUDES = [-180, 180]
 
 export default {
+  name: 'MapGeogebra',
   components: {
     Geogebra,
     Openstreetmap,

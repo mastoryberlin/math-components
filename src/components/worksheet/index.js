@@ -1,3 +1,3 @@
-import Worksheet from "./Worksheet.vue";
+import Worksheet from "./worksheet.vue";
 export { Worksheet };
 export default Worksheet;

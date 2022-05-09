@@ -231,6 +231,7 @@ const VIRTUAL_KEYBOARDS = {
 };
 
 export default {
+  name: 'Formula',
   props: {
     keyboard: {
       type: String,

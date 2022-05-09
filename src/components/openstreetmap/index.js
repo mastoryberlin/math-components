@@ -1,3 +1,3 @@
-import Openstreetmap from "./Openstreetmap.vue";
+import Openstreetmap from "./openstreetmap.vue";
 export { Openstreetmap };
 export default Openstreetmap;

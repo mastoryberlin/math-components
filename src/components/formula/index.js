@@ -1,3 +1,3 @@
-import Formula from "./Formula.vue";
+import Formula from "./formula.vue";
 export { Formula };
 export default Formula;
