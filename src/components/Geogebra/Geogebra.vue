@@ -48,6 +48,10 @@ export default {
       type: [Array, String, Boolean],
       default: null,
     },
+    transparent: {
+      type: Boolean,
+      default: false,
+    },
 
     capturingThreshold: {
       type: Number,
@@ -182,6 +186,7 @@ export default {
         src,
         toolbar,
         xml,
+        transparent,
 
         capturingThreshold,
         scale,
@@ -213,6 +218,7 @@ export default {
         showFullscreenButton: true,
         clickToLoad: false,
         editorBackgroundColor: "#000000",
+        transparentGraphics: transparent,
       };
 
       if (src) {
