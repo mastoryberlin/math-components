@@ -181,7 +181,7 @@ export default {
       const self = this
 
       appletsCount += 1
-      console.log('Increasing appletsCount -> ' + appletsCount)
+      // console.log('Increasing appletsCount -> ' + appletsCount)
       self.instanceNumber = appletsCount
 
       // Retrieve all props (or their default values) from instance
@@ -383,7 +383,7 @@ export default {
                 fileName: `embedded-image${n+1}.png`,
                 fileContent: i.src,
               })))
-              console.log('Embedding images', images, json, xmlPart)
+              // console.log('Embedding images', images, json, xmlPart)
               this.settingJSON = false
               api.setFileJSON(json)
               return
