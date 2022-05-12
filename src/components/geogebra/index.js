@@ -1,3 +1,3 @@
-import Geogebra from "./geogebra.vue";
-export { Geogebra };
-export default Geogebra;
+import Geogebra from './geogebra.vue'
+export { Geogebra }
+export default Geogebra
