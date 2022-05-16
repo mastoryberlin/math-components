@@ -65,7 +65,7 @@ export default {
     },
     buttonRounding: {
       type: Number,
-      default: 0.7,
+      default: 1.5,
     },
     ggbBase64: {
       type: String,
@@ -460,6 +460,14 @@ export default {
       api.registerRemoveListener(id + 'RemoveListener')
       api.registerUpdateListener(id + 'UpdateListener')
       api.registerClientListener(id + 'ClientListener')
+
+      const canvas = document.getElementById(id).getElementsByTagName('canvas')[0]
+      canvas.addEventListener('mousemove', e => {
+        const {invXscale, invYscale, xMin, yMin, height} = JSON.parse(api.getViewProperties())
+        const x = xMin + e.layerX * invXscale
+        const y = yMin + (height - e.layerY) * invYscale
+        this.$emit('hover', {x, y})
+      })
     },
 
     unregisterListeners() {
@@ -755,3 +763,12 @@ export default {
   },
 }
 </script>
+
+<style>
+.GeoGebraFrame {
+  border-radius: 20px;
+}
+.GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button {
+  border-radius: 30px;
+}
+</style>
