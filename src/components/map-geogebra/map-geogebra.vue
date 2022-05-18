@@ -31,6 +31,8 @@
         @deselect="$emit('deselect', $event)"
         @click="$emit('click', $event)"
         @drop="$emit('drop', $event)"
+        @tool="$emit('tool', $event)"
+        @hover="$emit('hover', $event)"
       >
         <!-- Use the src argument to load a Geogebra worksheet from a URL
         Also, anything inside the pre tag will be constructed on top of that -->
@@ -184,5 +186,15 @@ export default {
   position: absolute;
   left: 0;
   top: 0;
+}
+.ol-viewport {
+  border-radius: 20px;
+  filter: saturate(2.5);
+}
+.GeoGebraFrame {
+  border-radius: 20px;
+}
+.GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button {
+  border-radius: 30px !important;
 }
 </style>
