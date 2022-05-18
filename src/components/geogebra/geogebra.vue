@@ -52,7 +52,7 @@ export default {
     },
     transparent: {
       type: Boolean,
-      default: true,
+      default: false,
     },
 
     capturingThreshold: {
