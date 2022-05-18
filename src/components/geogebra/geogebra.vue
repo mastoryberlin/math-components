@@ -52,7 +52,7 @@ export default {
     },
     transparent: {
       type: Boolean,
-      default: false,
+      default: true,
     },
 
     capturingThreshold: {
@@ -142,6 +142,8 @@ export default {
     previousViewProps: null,
     settingJSON: true,
     tools,
+    selectedObjects: new Set(),
+    prevSelectedObjects: new Set(),
   }),
   computed: {
     id() {
@@ -427,18 +429,39 @@ export default {
         }
       }
       // Create GGB applet
-      const applet = new GGBApplet(params, '5.0')
+      const applet = new GGBApplet(params, false) // used to be '5.0'
 
       applet.setPreviewImage(
-        'data:image/gif;base64,R0lGODlhAQABAAAAADs=',
-        'https://www.geogebra.org/images/GeoGebra_loading.png',
+        null,
+        'https://mastory.io/get-in-touch-logo.svg',
         'https://www.geogebra.org/images/applet_play.png'
       )
+      const codebase = 'https://apps-builds.s3-eu-central-1.amazonaws.com/geogebra/branches/dev/latest/web3d/'
+      applet.setHTML5Codebase(codebase)
       self.applet = applet
 
       const { id } = self
       console.log('Injecting applet into DIV with id ' + id)
       self.$nextTick(() => applet.inject(id))
+    },
+
+    emitSelectDeselectEvents() {
+      const difference = (setA, setB) => {
+        let _difference = new Set(setA)
+        for (let elem of setB) {
+            _difference.delete(elem)
+        }
+        return _difference
+      }
+      const {selectedObjects, prevSelectedObjects} = this
+      const newlySelected = difference(selectedObjects, prevSelectedObjects)
+      const deselected = difference(prevSelectedObjects, selectedObjects)
+      deselected.forEach(name => {
+        this.$emit('deselect', name)
+      })
+      newlySelected.forEach(name => {
+        this.$emit('select', name)
+      })
     },
 
     registerListeners() {
@@ -503,10 +526,14 @@ export default {
           }
           break
         case 'deselect':
-          this.$emit('deselect')
+          this.prevSelectedObjects = new Set([...this.selectedObjects])
+          this.selectedObjects.clear()
+          this.emitSelectDeselectEvents()
           break // xapi2.evalCommand("SelectObjects[]");
         case 'select':
-          this.$emit('select', event[1])
+          this.prevSelectedObjects = new Set([...this.selectedObjects])
+          this.selectedObjects.add(event[1])
+          this.emitSelectDeselectEvents()
           break // xapi2.evalCommand("SelectObjects[" + event[1] + "]");
         case 'mouseDown':
           {
