@@ -1,6 +1,6 @@
 {
-  "name": "math-components",
-  "version": "1.4.0",
+  "name": "@mastoryberlin/math-components",
+  "version": "1.4.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mastoryberlin/math-components.git"
+  },
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
   },
   "author": "",
   "license": "ISC",

@@ -92,6 +92,10 @@ export default {
       type: String,
       default: null,
     },
+    offset: {
+      type: Object,
+      default: () => ({x: 0, y: 0}),
+    },
   },
   data: () => ({
     osm: null,
@@ -127,7 +131,8 @@ export default {
       const view = osm.getView()
       if (view) {
         const { viewRect: { x, y } } = this
-        const extent = [x[0], y[0], x[1], y[1]]
+        const d = this.offset
+        const extent = [x[0] + d.x, y[0] + d.y, x[1] + d.x, y[1] + d.y]
         view.fit(extent)
       }
     },
@@ -147,7 +152,8 @@ export default {
       if (osm) {
         const view = osm.getView()
         if (view) {
-          const extent = [x[0], y[0], x[1], y[1]]
+          const d = this.offset
+          const extent = [x[0] + d.x, y[0] + d.y, x[1] + d.x, y[1] + d.y]
           view.fit(extent)
           // view.setCenter(center)
         } else {
@@ -164,7 +170,8 @@ export default {
         const view = osm.getView()
         if (view) {
           const { value: { viewRect: { x, y }} } = this
-          const extent = [x[0], y[0], x[1], y[1]]
+          const d = this.offset
+          const extent = [x[0] + d.x, y[0] + d.y, x[1] + d.x, y[1] + d.y]
           view.fit(extent)
         } else {
           console.warn('view is ', view)
