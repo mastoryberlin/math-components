@@ -428,7 +428,7 @@ export default {
             api,
           })
 
-          self.fixCSS()
+          self.$nextTick(self.fixCSS)
           self.registerListeners()
           self.$emit('load')
         }
@@ -788,7 +788,7 @@ export default {
 
     fixCSS() {
       const el = document.getElementById(this.id)
-      const n = el.getClientRects()[0].height
+      const n = el.getClientRects()[0].height - 2
       const panel = el.getElementsByClassName('EuclidianPanel')[0]
       panel.style.height = n + 'px'
       const canvas = el.getElementsByTagName('canvas')[0]
