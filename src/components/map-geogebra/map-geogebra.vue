@@ -13,6 +13,7 @@
       <geogebra
         :value="value"
         :transparent="true"
+        :no-fullscreen="noFullscreen"
         :display-width="osmWidth"
         :display-height="osmHeight + 60"
         :view-rect="viewRect"
@@ -89,6 +90,10 @@ export default {
     toolbar: {
       type: [Array, String, Boolean],
       default: 'move',
+    },
+    noFullscreen: {
+      type: Boolean,
+      default: true,
     },
     xml: {
       type: String,
@@ -241,7 +246,7 @@ export default {
   border-radius: 30px !important;
 }
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button[isSelected="true"] {
-  background-color: #CECECE !important;
+  background-color: #4D35C721 !important;
 }
 .ggbtoolbarpanel {
   width: 292px !important;

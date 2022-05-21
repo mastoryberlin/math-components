@@ -54,6 +54,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    noFullscreen: {
+      type: Boolean,
+      default: false,
+    },
 
     capturingThreshold: {
       type: Number,
@@ -198,6 +202,7 @@ export default {
         toolbar,
         xml,
         transparent,
+        noFullscreen,
 
         capturingThreshold,
         scale,
@@ -226,7 +231,7 @@ export default {
         showAlgebraInput: false,
         showToolBarHelp: false,
         showZoomButtons: false,
-        showFullscreenButton: true,
+        showFullscreenButton: !noFullscreen,
         clickToLoad: false,
         editorBackgroundColor: '#000000',
         transparentGraphics: transparent,
@@ -822,7 +827,7 @@ export default {
   border-radius: 30px;
 }
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button[isSelected="true"] {
-  background-color: #CECECE;
+  background-color: #4D35C721;
 }
 .ggbtoolbarpanel {
   width: 292px;
