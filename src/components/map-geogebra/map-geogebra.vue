@@ -233,7 +233,12 @@ export default {
   background-color: #E6E6E6DE !important;
 }
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button {
+  border: none !important;
+  background-color: inherit !important;
   border-radius: 30px !important;
+}
+.GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button[isSelected="true"] {
+  background-color: #CECECE !important;
 }
 .ggbtoolbarpanel {
   width: 200px !important;

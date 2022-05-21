@@ -812,6 +812,10 @@ export default {
 .GeoGebraFrame {
   border-radius: 20px;
 }
+.GeoGebraFrame .toolbarPanel {
+  position: absolute;
+  background-color: #E6E6E6DE;
+}
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button {
   border: none;
   background-color: inherit;
@@ -819,10 +823,6 @@ export default {
 }
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button[isSelected="true"] {
   background-color: #CECECE;
-}
-.GeoGebraFrame .toolbarPanel {
-  position: absolute;
-  background-color: #E6E6E6DE;
 }
 .ggbtoolbarpanel {
   width: 200px;
