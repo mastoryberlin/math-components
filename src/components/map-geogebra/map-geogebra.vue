@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="map-geogebra__wrapper" :style="height: osmHeight + 'px'">
+  <div class="map-geogebra__wrapper" :style="{height: osmHeight + 'px'}">
     <openstreetmap
       v-model="osm"
       container="map"
