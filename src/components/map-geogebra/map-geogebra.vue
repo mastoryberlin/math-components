@@ -126,14 +126,18 @@ export default {
     zoomConstraint() { return this.allowZoom },
     osmSize() {
       const { osm } = this
-      return osm ? document.getElementById('map').getClientRects()[0] : null
+      const m = document.getElementById('map')
+      return (osm && m) ? m.getClientRects()[0] : null
     },
   },
   mounted() {
     window.addEventListener('resize', () => {
-      const s = document.getElementById('map').getClientRects()[0]
-      this.osmWidth = s.width
-      this.osmHeight = s.height
+      const m = document.getElementById('map')
+      if (m) {
+        const s = m.getClientRects()[0]
+        this.osmWidth = s.width
+        this.osmHeight = s.height
+      }
     })
   },
   methods: {
