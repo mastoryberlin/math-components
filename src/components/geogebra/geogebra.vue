@@ -158,6 +158,9 @@ export default {
         api.setSize(n, displayHeight)
       }
     },
+    displayHeight(n) {
+      this.fixCSS()
+    },
   },
   created() {
     this.setup(this.initialConfig)
@@ -425,7 +428,7 @@ export default {
             api,
           })
 
-          // self.fixCSS()
+          self.fixCSS()
           self.registerListeners()
           self.$emit('load')
         }
@@ -445,15 +448,6 @@ export default {
       const { id } = self
       console.log('Injecting applet into DIV with id ' + id)
       self.$nextTick(() => applet.inject(id))
-    },
-
-    fixCSS() {
-      const el = document.getElementById(this.id)
-      const panel = el.getElementsByClassName('EuclidianPanel')[0]
-      panel.style.height = n + 'px'
-      const canvas = el.getElementsByTagName('canvas')[0]
-      canvas.setAttribute('height', n - 53)
-      canvas.style.height = n + 'px'
     },
 
     emitSelectDeselectEvents() {
@@ -790,6 +784,15 @@ export default {
         }
         this.api.setCoordSystem(x[0], x[1], y[0], y[1])
       }
+    },
+
+    fixCSS() {
+      const el = document.getElementById(this.id)
+      const panel = el.getElementsByClassName('EuclidianPanel')[0]
+      panel.style.height = n + 'px'
+      const canvas = el.getElementsByTagName('canvas')[0]
+      canvas.setAttribute('height', n - 53)
+      canvas.style.height = n + 'px'
     },
   },
   render(createElement) {
