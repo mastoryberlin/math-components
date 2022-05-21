@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="49.330746"
+   height="49.274525"
+   viewBox="0 0 13.052094 13.037217"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (1:1.1+202202050950+0a00cf5339)"
+   sodipodi:docname="line-tool.svg"
+   inkscape:export-filename="/home/felix/Mastory/math-components/assets/line-erase.png"
+   inkscape:export-xdpi="245.69"
+   inkscape:export-ydpi="245.69"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="1.0975309"
+     inkscape:cx="219.5838"
+     inkscape:cy="206.37233"
+     inkscape:window-width="1920"
+     inkscape:window-height="1019"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     units="px"
+     width="20.48503px" />
+  <defs
+     id="defs2">
+    <inkscape:path-effect
+       effect="fill_between_many"
+       method="originald"
+       linkedpaths="#path7501,0,1"
+       id="path-effect7503"
+       is_visible="true"
+       lpeversion="0"
+       join="true"
+       close="true"
+       autoreverse="true"
+       applied="false" />
+  </defs>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(6.1323506,-15.645067)">
+    <path
+       style="fill:#8c8c8c;stroke-width:0.0828015;fill-opacity:1"
+       d="m 2.5664436,25.230346 c -2.03436391,1.631201 -5.52003,0.754524 -6.4649929,-1.700203 -0.5421545,-1.23695 -0.4769116,-2.263778 0.5258763,-4.324472 l -2.7596776,-2.833243 0.8071237,-0.727361 2.7662956,2.784544 c 2.0287898,-1.620011 5.5235016,-0.740308 6.4380779,1.721338 0.5782133,1.369121 0.4182208,3.052813 -0.4986325,4.238381 l 3.5392288,3.536354 -0.7955559,0.756601 z m -1.3434004,-0.59 c 1.9030306,-0.751179 2.4465446,-3.616996 0.9245476,-4.997199 -1.29296268,-1.308693 -3.8045214,-1.121209 -4.7535531,0.507995 -0.9389019,1.396493 -0.4840885,3.565057 1.0431947,4.348573 0.83534889,0.481346 1.90981497,0.564199 2.7858108,0.140631 z"
+       id="path14063"
+       sodipodi:nodetypes="cccccccccccccccc" />
+  </g>
+</svg>

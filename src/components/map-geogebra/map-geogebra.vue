@@ -3,7 +3,8 @@
     <openstreetmap
       v-model="osm"
       container="map"
-      class="map-geogebra__stacked"
+      class="map-geogebra__stacked map-geogebra__map"
+      :class="showMap ? 'show' : 'hide'"
       :display-width="displayWidth"
       :display-height="displayHeight"
       @input="initCoords"
@@ -39,6 +40,7 @@
         <slot />
       </geogebra>
     </div>
+    <slot name="extend" />
   </div>
 </template>
 
@@ -95,6 +97,10 @@ export default {
     offset: {
       type: Object,
       default: () => ({x: 0, y: 0}),
+    },
+    showMap: {
+      type: Boolean,
+      default: true,
     },
   },
   data: () => ({
@@ -194,9 +200,30 @@ export default {
   left: 0;
   top: 0;
 }
+.map-geogebra__map.show {
+  opacity: 1;
+  transition: all 0.75s ease-out;
+}
+.map-geogebra__map.hide {
+  opacity: 0;
+  transition: all 0.75s ease-in;
+}
 .ol-viewport {
   border-radius: 20px;
-  filter: saturate(2.5);
+}
+.show .ol-viewport {
+  filter: saturate(2.5) grayscale(0) blur(0);
+  transition: all 0.75s ease-out;
+}
+.hide .ol-viewport {
+  filter: saturate(1) grayscale(1) blur(2px);
+  transition: all 0.75s ease-in;
+}
+.ol-zoom-in {
+  display: none !important;
+}
+.ol-zoom-out {
+  display: none !important;
 }
 .GeoGebraFrame {
   border-radius: 20px;

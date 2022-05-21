@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="50.475079"
+   height="50.169701"
+   viewBox="0 0 13.354865 13.274066"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (1:1.1+202202050950+0a00cf5339)"
+   sodipodi:docname="line-erase.svg"
+   inkscape:export-filename="/home/felix/Mastory/math-components/assets/line-erase.png"
+   inkscape:export-xdpi="245.69"
+   inkscape:export-ydpi="245.69"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="6.2085721"
+     inkscape:cx="43.005057"
+     inkscape:cy="42.602388"
+     inkscape:window-width="1920"
+     inkscape:window-height="1019"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     units="px"
+     width="20.48503px" />
+  <defs
+     id="defs2">
+    <inkscape:path-effect
+       effect="fill_between_many"
+       method="originald"
+       linkedpaths="#path7501,0,1"
+       id="path-effect7503"
+       is_visible="true"
+       lpeversion="0"
+       join="true"
+       close="true"
+       autoreverse="true"
+       applied="false" />
+  </defs>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(7.2080573,-15.104476)">
+    <path
+       style="fill:#8c8c8c;fill-opacity:1;stroke-width:0.0787996"
+       d="m -6.8587468,28.022621 -0.3493105,-0.355921 1.7087695,-1.712566 1.7087696,-1.712566 -0.270235,-0.354598 c -0.465478,-0.610792 -0.685609,-1.268421 -0.7294075,-2.179064 -0.044623,-0.927792 0.1153976,-1.604191 0.5360914,-2.266031 l 0.2459438,-0.386921 -1.4040324,-1.40566 -1.4040327,-1.40566 0.3734769,-0.373476 0.3734769,-0.373477 1.4056598,1.404032 1.4056597,1.404033 0.386921,-0.245496 c 1.2548642,-0.796191 3.04173421,-0.747216 4.3105333,0.118145 l 0.4891604,0.333623 1.712735,-1.703271 1.7127347,-1.703271 0.39632,0.39036 0.3963205,0.390361 -1.7480855,1.749382 -1.748085,1.749381 0.2056905,0.458816 c 0.5464281,1.218871 0.4951586,2.470031 -0.1493099,3.643735 L 2.429323,23.992246 4.1087362,25.673023 5.7881489,27.353799 5.4145385,27.72741 5.0409281,28.10102 3.360152,26.421607 1.6793751,24.742194 1.1736398,25.020134 c -1.15465439,0.634573 -2.4431671,0.687287 -3.6437244,0.149069 l -0.4588065,-0.205686 -3.4991098,3.415026 c -0.04479,0 -0.2386253,-0.160165 -0.4307459,-0.355922 z M 0.40590881,24.184823 C 1.4113076,23.724088 2.0450639,22.797261 2.1082965,21.695188 2.1414217,21.117861 2.0580045,20.597367 1.8912653,20.340993 l -3.941943,3.799089 c 0,0 0.168434,0.111176 0.3742977,0.177003 0.5742324,0.183617 1.52473524,0.123243 2.08228881,-0.132262 z M -0.90751665,21.361021 1.1407024,19.307868 0.9043039,19.114651 c -0.40041667,-0.327274 -1.03603786,-0.52424 -1.69418956,-0.524994 -0.66114744,-7.72e-4 -1.09045724,0.128413 -1.67634604,0.504376 -1.2800434,0.821402 -1.6592865,2.725358 -0.8016559,4.024643 0.1072786,0.162524 0.2213998,0.295497 0.2536021,0.295497 0.032203,0 0.9802485,-0.923918 2.10676885,-2.053152 z"
+       id="path12127"
+       sodipodi:nodetypes="scccssscccccccsscccccccsscccccccssccsssccssscscssss"
+       inkscape:export-filename="/home/felix/Mastory/math-components/assets/line-tool.png"
+       inkscape:export-xdpi="95.099998"
+       inkscape:export-ydpi="95.099998" />
+  </g>
+</svg>

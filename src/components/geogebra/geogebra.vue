@@ -134,6 +134,7 @@ export default {
     'update',
     'undo',
     'redo',
+    'hover',
   ],
   data: () => ({
     instanceNumber: 0,
@@ -797,5 +798,20 @@ export default {
 }
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button {
   border-radius: 30px;
+}
+.GeoGebraFrame .toolbarPanel {
+  position: absolute;
+  background-color: #E6E6E68C;
+}
+.ggbtoolbarpanel {
+  width: 200px;
+  margin: 20px;
+  border-radius: 50px;
+}
+.gwt-SplitLayoutPanel {
+  position: absolute;
+}
+.EuclidianPanel {
+  position: relative;
 }
 </style>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="127.02358"
+   height="128.41647"
+   viewBox="0 0 33.608325 33.976856"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (1:1.1+202202050950+0a00cf5339)"
+   sodipodi:docname="move.svg"
+   inkscape:export-filename="/home/felix/Mastory/math-components/assets/line-tool.png"
+   inkscape:export-xdpi="249.09"
+   inkscape:export-ydpi="249.09"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="1.0975309"
+     inkscape:cx="217.76153"
+     inkscape:cy="202.72778"
+     inkscape:window-width="1920"
+     inkscape:window-height="1019"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     units="px"
+     width="20.48503px" />
+  <defs
+     id="defs2">
+    <inkscape:path-effect
+       effect="fill_between_many"
+       method="originald"
+       linkedpaths="#path7501,0,1"
+       id="path-effect7503"
+       is_visible="true"
+       lpeversion="0"
+       join="true"
+       close="true"
+       autoreverse="true"
+       applied="false" />
+  </defs>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(5.6366977,-16.498184)">
+    <path
+       style="fill:#8c8c8c;stroke-width:0.193095;fill-opacity:1"
+       d="m 3.904815,48.268856 c -3.01603342,-9.7413 -9.6106469,-31.700538 -9.5409648,-31.77022 0.077181,-0.07717 32.7526388,9.759201 33.5934888,10.112736 0.230773,0.09703 -2.328354,1.141161 -8.110005,3.308904 -4.645943,1.741926 -8.534067,3.245114 -8.640269,3.340419 -0.106201,0.0953 -1.6389686,4.007519 -3.4061433,8.693812 L 4.5878784,50.475043 Z M 7.0559836,36.376211 9.0201701,31.134667 13.782431,29.353893 c 2.619241,-0.979427 5.066386,-1.908365 5.438092,-2.064311 0.661302,-0.277437 0.666083,-0.287306 0.222352,-0.459076 -1.373925,-0.531846 -20.9322758,-6.368614 -21.0261036,-6.274785 -0.061545,0.06155 1.35315966,4.93647 3.1437844,10.833169 1.7906248,5.896701 3.3176848,10.610485 3.3934609,10.475072 0.075783,-0.135401 1.0216671,-2.604899 2.1019669,-5.487751 z"
+       id="path16191" />
+  </g>
+</svg>
