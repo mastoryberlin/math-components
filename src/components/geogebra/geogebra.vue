@@ -162,12 +162,7 @@ export default {
       const { api, displayWidth } = this
       if (api) {
         api.setSize(displayWidth, n)
-        const el = document.getElementById(id)
-        const panel = el.getElementsByClassName('EuclidianPanel')[0]
-        panel.style.height = n + 'px'
-        const canvas = el.getElementsByTagName('canvas')[0]
-        canvas.setAttribute('height', n - 53)
-        canvas.style.height = n + 'px'
+        this.fixCSS()
       }
     },
   },
@@ -437,6 +432,7 @@ export default {
             api,
           })
 
+          self.fixCSS()
           self.registerListeners()
           self.$emit('load')
         }
@@ -456,6 +452,15 @@ export default {
       const { id } = self
       console.log('Injecting applet into DIV with id ' + id)
       self.$nextTick(() => applet.inject(id))
+    },
+
+    fixCSS() {
+      const el = document.getElementById(this.id)
+      const panel = el.getElementsByClassName('EuclidianPanel')[0]
+      panel.style.height = n + 'px'
+      const canvas = el.getElementsByTagName('canvas')[0]
+      canvas.setAttribute('height', n - 53)
+      canvas.style.height = n + 'px'
     },
 
     emitSelectDeselectEvents() {
