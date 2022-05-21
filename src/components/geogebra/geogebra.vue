@@ -158,7 +158,7 @@ export default {
         api.setSize(n, displayHeight)
       }
     },
-    displayHeight(n) {
+    displayHeight() {
       this.fixCSS()
     },
   },
@@ -243,6 +243,8 @@ export default {
               ? toolbar
               : toolbar.split(/[,;]|[,;]?\s+|\s+[,;]?/g)
           params.customToolBar = t.map(name => {
+            const n = Number.parseInt(name)
+            if (n) { return name }
             const tl = this.tools.find(l => l.name === name)
             return tl ? tl.id : null
           }).filter(l => l !== null).join('|')

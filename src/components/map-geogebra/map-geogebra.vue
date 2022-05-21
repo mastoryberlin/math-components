@@ -243,4 +243,7 @@ export default {
 .gwt-SplitLayoutPanel {
   position: absolute;
 }
+.ol-attribution {
+  display: none;
+}
 </style>
