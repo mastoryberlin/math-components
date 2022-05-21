@@ -244,6 +244,6 @@ export default {
   position: absolute;
 }
 .ol-attribution {
-  display: none;
+  display: none !important;
 }
 </style>

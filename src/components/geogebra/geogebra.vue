@@ -813,7 +813,12 @@ export default {
   border-radius: 20px;
 }
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button {
+  border: none;
+  background-color: inherit;
   border-radius: 30px;
+}
+.GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button[isSelected="true"] {
+  background-color: #CECECE;
 }
 .GeoGebraFrame .toolbarPanel {
   position: absolute;
