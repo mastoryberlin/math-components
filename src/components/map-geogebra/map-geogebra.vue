@@ -228,7 +228,19 @@ export default {
 .GeoGebraFrame {
   border-radius: 20px;
 }
+.GeoGebraFrame .toolbarPanel {
+  position: absolute !important;
+  background-color: #E6E6E6DE !important;
+}
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button {
   border-radius: 30px !important;
+}
+.ggbtoolbarpanel {
+  width: 200px !important;
+  margin: 20px !important;
+  border-radius: 50px;
+}
+.gwt-SplitLayoutPanel {
+  position: absolute;
 }
 </style>

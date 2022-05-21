@@ -158,6 +158,18 @@ export default {
         api.setSize(n, displayHeight)
       }
     },
+    displayHeight(n) {
+      const { api, displayWidth } = this
+      if (api) {
+        api.setSize(displayWidth, n)
+        const el = document.getElementById(id)
+        const panel = el.getElementsByClassName('EuclidianPanel')[0]
+        panel.style.height = n + 'px'
+        const canvas = el.getElementsByTagName('canvas')[0]
+        canvas.setAttribute('height', n - 53)
+        canvas.style.height = n + 'px'
+      }
+    },
   },
   created() {
     this.setup(this.initialConfig)
@@ -801,7 +813,7 @@ export default {
 }
 .GeoGebraFrame .toolbarPanel {
   position: absolute;
-  background-color: #E6E6E68C;
+  background-color: #E6E6E6DE;
 }
 .ggbtoolbarpanel {
   width: 200px;
