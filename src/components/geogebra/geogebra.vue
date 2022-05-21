@@ -162,9 +162,6 @@ export default {
         api.setSize(n, displayHeight)
       }
     },
-    displayHeight() {
-      this.fixCSS()
-    },
   },
   created() {
     this.setup(this.initialConfig)
@@ -435,7 +432,6 @@ export default {
             api,
           })
 
-          self.$nextTick(self.fixCSS)
           self.registerListeners()
           self.$emit('load')
         }
@@ -791,16 +787,6 @@ export default {
         }
         this.api.setCoordSystem(x[0], x[1], y[0], y[1])
       }
-    },
-
-    fixCSS() {
-      const el = document.getElementById(this.id)
-      const n = el.getClientRects()[0].height - 2
-      const panel = el.getElementsByClassName('EuclidianPanel')[0]
-      panel.style.height = n + 'px'
-      const canvas = el.getElementsByTagName('canvas')[0]
-      canvas.setAttribute('height', n - 55)
-      canvas.style.height = n + 'px'
     },
   },
   render(createElement) {
