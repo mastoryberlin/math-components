@@ -787,11 +787,12 @@ export default {
     },
 
     fixCSS() {
+      const n = this.displayHeight
       const el = document.getElementById(this.id)
       const panel = el.getElementsByClassName('EuclidianPanel')[0]
       panel.style.height = n + 'px'
       const canvas = el.getElementsByTagName('canvas')[0]
-      canvas.setAttribute('height', n - 53)
+      canvas.setAttribute('height', n - 55)
       canvas.style.height = n + 'px'
     },
   },
