@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="map-geogebra__wrapper">
+  <div class="map-geogebra__wrapper" :style="height: osmHeight + 'px'">
     <openstreetmap
       v-model="osm"
       container="map"
@@ -14,7 +14,7 @@
         :value="value"
         :transparent="true"
         :display-width="osmWidth"
-        :display-height="osmHeight"
+        :display-height="osmHeight + 60"
         :view-rect="viewRect"
         :allow-pan="panConstraint"
         :allow-zoom="zoomConstraint"
@@ -194,6 +194,9 @@ export default {
 <style>
 .map-geogebra__wrapper {
   position: relative;
+  overflow: clip;
+  border-radius: 20px;
+  border: 1px solid lightgray;
 }
 .map-geogebra__stacked {
   position: absolute;
@@ -241,7 +244,7 @@ export default {
   background-color: #CECECE !important;
 }
 .ggbtoolbarpanel {
-  width: 200px !important;
+  width: 292px !important;
   margin: 20px !important;
   border-radius: 50px;
 }

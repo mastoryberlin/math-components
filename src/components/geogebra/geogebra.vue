@@ -825,7 +825,7 @@ export default {
   background-color: #CECECE;
 }
 .ggbtoolbarpanel {
-  width: 200px;
+  width: 292px;
   margin: 20px;
   border-radius: 50px;
 }
