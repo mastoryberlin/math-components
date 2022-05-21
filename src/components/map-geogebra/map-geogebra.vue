@@ -243,6 +243,7 @@ export default {
 .GeoGebraFrame .toolbarPanel {
   position: absolute !important;
   background-color: #E6E6E6DE !important;
+  z-index: 2 !important;
 }
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button {
   border: none !important;

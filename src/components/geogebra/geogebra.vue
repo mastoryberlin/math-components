@@ -806,6 +806,7 @@ export default {
 .GeoGebraFrame .toolbarPanel {
   position: absolute;
   background-color: #E6E6E6DE;
+  z-index: 2;
 }
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button {
   border: none;
