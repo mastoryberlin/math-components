@@ -787,8 +787,8 @@ export default {
     },
 
     fixCSS() {
-      const n = this.displayHeight
       const el = document.getElementById(this.id)
+      const n = el.getClientRects()[0].height
       const panel = el.getElementsByClassName('EuclidianPanel')[0]
       panel.style.height = n + 'px'
       const canvas = el.getElementsByTagName('canvas')[0]
