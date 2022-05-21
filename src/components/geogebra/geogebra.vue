@@ -158,13 +158,6 @@ export default {
         api.setSize(n, displayHeight)
       }
     },
-    displayHeight(n) {
-      const { api, displayWidth } = this
-      if (api) {
-        api.setSize(displayWidth, n)
-        this.fixCSS()
-      }
-    },
   },
   created() {
     this.setup(this.initialConfig)
@@ -432,7 +425,7 @@ export default {
             api,
           })
 
-          self.fixCSS()
+          // self.fixCSS()
           self.registerListeners()
           self.$emit('load')
         }
