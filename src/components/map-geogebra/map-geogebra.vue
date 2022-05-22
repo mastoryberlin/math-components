@@ -1,5 +1,6 @@
 <template lang="html">
   <div class="map-geogebra__wrapper" :style="{height: osmHeight + 'px'}">
+    <div v-if="!transparent" class="map-geogebra__background" />
     <openstreetmap
       v-model="osm"
       container="map"
@@ -107,6 +108,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    transparent: {
+      type: Boolean,
+      default: false
+    },
   },
   data: () => ({
     osm: null,
@@ -206,6 +211,13 @@ export default {
   overflow: clip;
   border-radius: 20px;
   border: 1px solid lightgray;
+}
+.map-geogebra__background {
+  position: absolute;
+  border-radius: 20px;
+  background: white;
+  width: 100%;
+  height: 100%;
 }
 .map-geogebra__stacked {
   position: absolute;
