@@ -11,36 +11,38 @@
       @input="initCoords"
     />
     <div class="map-geogebra__stacked">
-      <geogebra
-        :value="value"
-        :transparent="true"
-        :no-fullscreen="noFullscreen"
-        :display-width="osmWidth"
-        :display-height="osmHeight + 60"
-        :view-rect="viewRect"
-        :allow-pan="panConstraint"
-        :allow-zoom="zoomConstraint"
-        :xml="xml"
-        :src="src"
-        :toolbar="toolbar"
-        @input="$emit('input', $event)"
-        @load="onLoad"
-        @pan="onPan"
-        @zoom="onZoom"
-        @add="$emit('add', $event)"
-        @remove="$emit('remove', $event)"
-        @update="$emit('update', $event)"
-        @select="$emit('select', $event)"
-        @deselect="$emit('deselect', $event)"
-        @click="$emit('click', $event)"
-        @drop="$emit('drop', $event)"
-        @tool="$emit('tool', $event)"
-        @hover="$emit('hover', $event)"
-      >
-        <!-- Use the src argument to load a Geogebra worksheet from a URL
-        Also, anything inside the pre tag will be constructed on top of that -->
-        <slot />
-      </geogebra>
+      <client-only>
+        <geogebra
+          :value="value"
+          :transparent="true"
+          :no-fullscreen="noFullscreen"
+          :display-width="osmWidth"
+          :display-height="osmHeight + 60"
+          :view-rect="viewRect"
+          :allow-pan="panConstraint"
+          :allow-zoom="zoomConstraint"
+          :xml="xml"
+          :src="src"
+          :toolbar="toolbar"
+          @input="$emit('input', $event)"
+          @load="onLoad"
+          @pan="onPan"
+          @zoom="onZoom"
+          @add="$emit('add', $event)"
+          @remove="$emit('remove', $event)"
+          @update="$emit('update', $event)"
+          @select="$emit('select', $event)"
+          @deselect="$emit('deselect', $event)"
+          @click="$emit('click', $event)"
+          @drop="$emit('drop', $event)"
+          @tool="$emit('tool', $event)"
+          @hover="$emit('hover', $event)"
+        >
+          <!-- Use the src argument to load a Geogebra worksheet from a URL
+          Also, anything inside the pre tag will be constructed on top of that -->
+          <slot />
+        </geogebra>
+      </client-only>
     </div>
     <slot name="extend" />
   </div>

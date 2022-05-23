@@ -185,6 +185,7 @@ export default {
     },
 
     initialConfig() {
+      if (process && process.server) { return }
       const self = this
 
       appletsCount += 1
