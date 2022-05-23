@@ -37,6 +37,8 @@
           @drop="$emit('drop', $event)"
           @tool="$emit('tool', $event)"
           @hover="$emit('hover', $event)"
+          @undo="$emit('undo', $event)"
+          @redo="$emit('redo', $event)"
         >
           <!-- Use the src argument to load a Geogebra worksheet from a URL
           Also, anything inside the pre tag will be constructed on top of that -->
