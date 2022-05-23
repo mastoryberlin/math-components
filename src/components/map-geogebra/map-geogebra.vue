@@ -25,7 +25,7 @@
           :src="src"
           :toolbar="toolbar"
           @input="$emit('input', $event)"
-          @load="onLoad"
+          @load="onGeogebraLoad"
           @pan="onPan"
           @zoom="onZoom"
           @add="$emit('add', $event)"
@@ -160,12 +160,14 @@ export default {
         view.fit(extent)
       }
     },
-    onLoad(e) {
-      this.$nextTick(() => {
+    onGeogebraLoad(e) {
+      const adjustSize = () => {
         const s = document.getElementById('map').getClientRects()[0]
         this.osmWidth = s.width
         this.osmHeight = s.height
-      })
+      }
+      setTimeout(adjustSize, 500)
+      this.$nextTick(adjustSize)
       this.$emit('load', e)
     },
     onPan(viewRect) {
