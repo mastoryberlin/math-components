@@ -166,9 +166,11 @@ export default {
         this.osmWidth = s.width
         this.osmHeight = s.height
       }
-      setTimeout(adjustSize, 500)
       this.$nextTick(adjustSize)
-      this.$emit('load', e)
+      setTimeout(() => {
+        adjustSize()
+        this.$emit('load', e)
+      }, 500)
     },
     onPan(viewRect) {
       const { x, y } = viewRect
