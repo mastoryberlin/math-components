@@ -149,7 +149,7 @@ export default {
       }
     }
     window.addEventListener('resize', adjustSize)
-    setTimeout(adjustSize, 1000)
+    setTimeout(adjustSize, 4000)
   },
   methods: {
     initCoords(osm) {
