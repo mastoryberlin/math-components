@@ -140,14 +140,16 @@ export default {
     },
   },
   mounted() {
-    window.addEventListener('resize', () => {
+    const adjustSize = () => {
       const m = document.getElementById('map')
       if (m) {
         const s = m.getClientRects()[0]
         this.osmWidth = s.width
         this.osmHeight = s.height
       }
-    })
+    }
+    window.addEventListener('resize', adjustSize)
+    setTimeout(adjustSize, 1000)
   },
   methods: {
     initCoords(osm) {
@@ -161,16 +163,7 @@ export default {
       }
     },
     onGeogebraLoad(e) {
-      const adjustSize = () => {
-        const s = document.getElementById('map').getClientRects()[0]
-        this.osmWidth = s.width
-        this.osmHeight = s.height
-      }
-      this.$nextTick(adjustSize)
-      setTimeout(() => {
-        adjustSize()
-        this.$emit('load', e)
-      }, 500)
+      this.$emit('load', e)
     },
     onPan(viewRect) {
       const { x, y } = viewRect
