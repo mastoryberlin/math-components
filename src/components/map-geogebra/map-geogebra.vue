@@ -140,16 +140,20 @@ export default {
     },
   },
   mounted() {
-    const adjustSize = () => {
+    window.addEventListener('resize', () => {
       const m = document.getElementById('map')
       if (m) {
         const s = m.getClientRects()[0]
         this.osmWidth = s.width
         this.osmHeight = s.height
       }
+    })
+    const m = document.getElementById('map')
+    if (m) {
+      const s = m.getClientRects()[0]
+      this.osmWidth = s.width
+      this.osmHeight = s.height
     }
-    window.addEventListener('resize', adjustSize)
-    setTimeout(adjustSize, 4000)
   },
   methods: {
     initCoords(osm) {
