@@ -38,6 +38,10 @@ export default {
       type: Array,
       default: () => [0, 0],
     },
+    flat: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   emits: ["input", "change", "change:pan", "change:zoom"],
@@ -114,6 +118,7 @@ export default {
         view: new View({
           center: this.initialCenter, // proj.fromLonLat([37.41, 8.82])
           zoom: this.initialZoom,
+          projection: this.flat ? 'EPSG:4326' : 'EPSG:3857',
         }),
         interactions: [
           new interaction.DragPan({

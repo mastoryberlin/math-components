@@ -8,6 +8,7 @@
       :class="showMap ? 'show' : 'hide'"
       :display-width="displayWidth"
       :display-height="displayHeight"
+      :flat="!spherical"
       @input="initCoords"
     />
     <div class="map-geogebra__stacked">
@@ -113,6 +114,10 @@ export default {
       default: true,
     },
     transparent: {
+      type: Boolean,
+      default: false
+    },
+    spherical: {
       type: Boolean,
       default: false
     },
