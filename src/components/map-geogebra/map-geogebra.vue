@@ -51,7 +51,6 @@
 </template>
 
 <script>
-/* global GGBApplet */
 import { Geogebra, Openstreetmap } from '../'
 
 const LATITUDES = [-90, 90]
@@ -158,9 +157,7 @@ export default {
       this.osmWidth = s.width
       this.osmHeight = s.height
     }
-    if (GGBApplet) {
-      this.$refs.ggb.initialConfig()
-    }
+    this.$nextTick(this.$refs.ggb.initialConfig)
   },
   methods: {
     initCoords(osm) {
