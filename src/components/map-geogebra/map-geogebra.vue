@@ -157,9 +157,20 @@ export default {
       this.osmWidth = s.width
       this.osmHeight = s.height
     }
-    this.$nextTick(this.$refs.ggb.initialConfig)
+    this.setup(this.$refs.ggb.initialConfig)
   },
   methods: {
+    setup(loadInitialConfig) {
+      const URL = 'https://www.geogebra.org/apps/deployggb.js'
+      const scripts = [...document.getElementsByTagName('script')]
+
+      if (scripts.some(({ src }) => src === URL)) return
+
+      const GeogebraScript = document.createElement('script')
+      GeogebraScript.setAttribute('src', URL)
+      GeogebraScript.onload = () => loadInitialConfig()
+      document.head.appendChild(GeogebraScript)
+    },
     initCoords(osm) {
       window.ol.proj.useGeographic()
       const view = osm.getView()
