@@ -164,7 +164,10 @@ export default {
       const URL = 'https://www.geogebra.org/apps/deployggb.js'
       const scripts = [...document.getElementsByTagName('script')]
 
-      if (scripts.some(({ src }) => src === URL)) return
+      if (scripts.some(({ src }) => src === URL)) {
+        this.$refs.ggb.initialConfig()
+        return
+      }
 
       const GeogebraScript = document.createElement('script')
       GeogebraScript.setAttribute('src', URL)
