@@ -169,7 +169,7 @@ export default {
       }
     },
   },
-  created() {
+  mounted() {
     this.setup(this.initialConfig)
   },
 
