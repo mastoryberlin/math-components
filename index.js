@@ -2,7 +2,7 @@ export * from './src/components'
 
 import Formula from './src/components/formula'
 import Geogebra from './src/components/geogebra'
-import MapGeogebra from './src/components/mapgeogebra'
+import MapGeogebra from './src/components/map-geogebra'
 import Openstreetmap from './src/components/openstreetmap'
 import Worksheet from './src/components/worksheet'
 
