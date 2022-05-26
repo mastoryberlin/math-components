@@ -12,40 +12,39 @@
       @input="initCoords"
     />
     <div class="map-geogebra__stacked">
-      <client-only>
-        <geogebra
-          :value="value"
-          :transparent="true"
-          :no-fullscreen="noFullscreen"
-          :display-width="osmWidth"
-          :display-height="osmHeight + 60"
-          :view-rect="viewRect"
-          :allow-pan="panConstraint"
-          :allow-zoom="zoomConstraint"
-          :xml="xml"
-          :src="src"
-          :toolbar="toolbar"
-          @input="$emit('input', $event)"
-          @load="onGeogebraLoad"
-          @pan="onPan"
-          @zoom="onZoom"
-          @add="$emit('add', $event)"
-          @remove="$emit('remove', $event)"
-          @update="$emit('update', $event)"
-          @select="$emit('select', $event)"
-          @deselect="$emit('deselect', $event)"
-          @click="$emit('click', $event)"
-          @drop="$emit('drop', $event)"
-          @tool="$emit('tool', $event)"
-          @hover="$emit('hover', $event)"
-          @undo="$emit('undo', $event)"
-          @redo="$emit('redo', $event)"
-        >
-          <!-- Use the src argument to load a Geogebra worksheet from a URL
-          Also, anything inside the pre tag will be constructed on top of that -->
-          <slot />
-        </geogebra>
-      </client-only>
+      <geogebra
+        ref="ggb"
+        :value="value"
+        :transparent="true"
+        :no-fullscreen="noFullscreen"
+        :display-width="osmWidth"
+        :display-height="osmHeight + 60"
+        :view-rect="viewRect"
+        :allow-pan="panConstraint"
+        :allow-zoom="zoomConstraint"
+        :xml="xml"
+        :src="src"
+        :toolbar="toolbar"
+        @input="$emit('input', $event)"
+        @load="onGeogebraLoad"
+        @pan="onPan"
+        @zoom="onZoom"
+        @add="$emit('add', $event)"
+        @remove="$emit('remove', $event)"
+        @update="$emit('update', $event)"
+        @select="$emit('select', $event)"
+        @deselect="$emit('deselect', $event)"
+        @click="$emit('click', $event)"
+        @drop="$emit('drop', $event)"
+        @tool="$emit('tool', $event)"
+        @hover="$emit('hover', $event)"
+        @undo="$emit('undo', $event)"
+        @redo="$emit('redo', $event)"
+      >
+        <!-- Use the src argument to load a Geogebra worksheet from a URL
+        Also, anything inside the pre tag will be constructed on top of that -->
+        <slot />
+      </geogebra>
     </div>
     <slot name="extend" />
   </div>
@@ -158,6 +157,7 @@ export default {
       this.osmWidth = s.width
       this.osmHeight = s.height
     }
+    this.$refs.ggb.initialConfig()
   },
   methods: {
     initCoords(osm) {
