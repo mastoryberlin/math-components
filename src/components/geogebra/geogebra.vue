@@ -157,9 +157,15 @@ export default {
   },
   watch: {
     displayWidth(n) {
-      const { api, displayHeight } = this
+      const { api } = this
       if (api) {
-        api.setSize(n, displayHeight)
+        api.setWidth(n)
+      }
+    },
+    displayHeight(n) {
+      const { api } = this
+      if (api) {
+        api.setHeight(n)
       }
     },
   },
