@@ -138,11 +138,10 @@ export default {
       return p
     },
     zoomConstraint() { return this.allowZoom },
-    osmSize() {
-      const { osm } = this
-      const m = document.getElementById('map')
-      return (osm && m) ? m.getClientRects()[0] : null
-    },
+  },
+  watch: {
+    displayWidth(n) { this.osmWidth = n },
+    displayHeight(n) { this.osmHeight = n },
   },
   mounted() {
     window.addEventListener('resize', () => {
