@@ -165,7 +165,7 @@ export default {
       const scripts = [...document.getElementsByTagName('script')]
 
       if (scripts.some(({ src }) => src === URL)) {
-        this.$refs.ggb.initialConfig()
+        this.$nextTick(this.$refs.ggb.initialConfig)
         return
       }
 
