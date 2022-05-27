@@ -160,7 +160,7 @@ export default {
   },
   methods: {
     injectGeogebra(applet) {
-      const div = this.$refs.ggb.getElementsByClassName('ggb-container')[0]
+      const div = this.$refs.ggb.$el.getElementsByClassName('ggb-container')[0]
       applet.inject(div.id)
     },
     initCoords(osm) {
