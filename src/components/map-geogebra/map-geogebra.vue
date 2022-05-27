@@ -13,7 +13,6 @@
     />
     <div class="map-geogebra__stacked">
       <geogebra
-        ref="ggb"
         :value="value"
         :transparent="true"
         :no-fullscreen="noFullscreen"
@@ -157,23 +156,8 @@ export default {
       this.osmWidth = s.width
       this.osmHeight = s.height
     }
-    this.setup(this.$refs.ggb.initialConfig)
   },
   methods: {
-    setup(loadInitialConfig) {
-      const URL = 'https://www.geogebra.org/apps/deployggb.js'
-      const scripts = [...document.getElementsByTagName('script')]
-
-      if (scripts.some(({ src }) => src === URL)) {
-        this.$nextTick(this.$refs.ggb.initialConfig)
-        return
-      }
-
-      const GeogebraScript = document.createElement('script')
-      GeogebraScript.setAttribute('src', URL)
-      GeogebraScript.onload = () => loadInitialConfig()
-      document.head.appendChild(GeogebraScript)
-    },
     initCoords(osm) {
       window.ol.proj.useGeographic()
       const view = osm.getView()
