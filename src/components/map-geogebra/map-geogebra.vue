@@ -13,6 +13,7 @@
     />
     <div class="map-geogebra__stacked">
       <geogebra
+        ref="ggb"
         :value="value"
         :transparent="true"
         :no-fullscreen="noFullscreen"
@@ -158,6 +159,10 @@ export default {
     }
   },
   methods: {
+    injectGeogebra(applet) {
+      const div = this.$refs.ggb.getElementsByClassName('ggb-container')[0]
+      applet.inject(div.id)
+    },
     initCoords(osm) {
       window.ol.proj.useGeographic()
       const view = osm.getView()
