@@ -541,11 +541,13 @@ export default {
           }
           break
         case 'deselect':
+          console.log('client event "deselect" triggered', event)
           this.prevSelectedObjects = new Set([...this.selectedObjects])
           this.selectedObjects.clear()
           this.emitSelectDeselectEvents()
           break // xapi2.evalCommand("SelectObjects[]");
         case 'select':
+          console.log('client event "select" triggered', event)
           this.prevSelectedObjects = new Set([...this.selectedObjects])
           this.selectedObjects.add(event[1])
           this.emitSelectDeselectEvents()
