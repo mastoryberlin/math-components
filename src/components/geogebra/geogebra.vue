@@ -231,8 +231,8 @@ export default {
 
       const params = {
         scaleContainerClass: 'ggb-container',
-        width: displayWidth,
-        height: displayHeight,
+        width: this.displayWidth,
+        height: this.displayHeight,
         enableRightClick: false,
         perspective: 'G',
         showMenuBar: false,
@@ -459,9 +459,8 @@ export default {
       applet.setHTML5Codebase(codebase)
       self.applet = applet
 
-      const { id } = self
-      console.log('Injecting applet into DIV with id ' + id)
-      self.$nextTick(() => applet.inject(id))
+      console.log('Injecting applet into DIV with id ' + this.id)
+      this.$nextTick(() => applet.inject(this.id))
     },
 
     emitSelectDeselectEvents() {
