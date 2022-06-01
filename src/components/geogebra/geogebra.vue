@@ -169,6 +169,12 @@ export default {
       }
     },
   },
+
+  created() {
+    appletsCount += 1
+    this.instanceNumber = appletsCount
+  },
+
   beforeMount() {
     this.setup(this.initialConfig)
   },
@@ -194,9 +200,7 @@ export default {
       if (process && process.server) { return }
       const self = this
 
-      appletsCount += 1
       // console.log('Increasing appletsCount -> ' + appletsCount)
-      self.instanceNumber = appletsCount
 
       // Retrieve all props (or their default values) from instance
       const {
