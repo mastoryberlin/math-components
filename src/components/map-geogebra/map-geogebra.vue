@@ -278,7 +278,6 @@ export default {
   background-color: #4D35C721 !important;
 }
 .ggbtoolbarpanel {
-  width: 292px !important;
   margin: 20px !important;
   border-radius: 50px;
 }
