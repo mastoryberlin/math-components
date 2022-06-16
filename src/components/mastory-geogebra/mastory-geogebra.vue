@@ -453,7 +453,7 @@ export default {
   background-color: #4D35C721;
 }
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_submenu .submenuContent .gwt-Label {
-  padding: 7px 10px 0 7px;
+  padding: 7px 10px 0 7px !important;
   font-family: "Matter" sans-serif;
 }
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_submenu .submenuContent img {
