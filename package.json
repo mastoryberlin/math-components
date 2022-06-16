@@ -1,6 +1,6 @@
 {
   "name": "@mastoryberlin/math-components",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/mastoryberlin/math-components.git"
   },
   "publishConfig": {
-    "registry":"https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +22,9 @@
     "url": "https://github.com/mastoryberlin/math-components/issues"
   },
   "homepage": "https://github.com/mastoryberlin/math-components#readme",
+  "babel": {
+    "presets": [ "@babel/preset-env" ]
+  },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
@@ -29,5 +32,11 @@
     "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-vue": "^7.20.0",
     "prettier": "^2.6.2"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.18.5",
+    "@babel/preset-env": "^7.18.2",
+    "npm-run-all": "^4.1.5"
   }
 }
