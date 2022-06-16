@@ -2,8 +2,8 @@ import { GeogebraObject } from './geogebra-object'
 
 export class GeogebraNumber extends GeogebraObject {
   #value;
-  constructor(name, numValue) {
-    super(name, 'GeogebraNumber')
+  constructor(name, numValue, showSlider = false) {
+    super(name, 'GeogebraNumber', {visible: showSlider})
     this.#value = numValue
   }
 
