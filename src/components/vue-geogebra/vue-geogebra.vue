@@ -521,7 +521,7 @@ export default {
           self.registerListeners()
           self.$emit('before-load')
           self.$nextTick(() => {
-            self.modifyTools()
+            setTimeout(self.modifyTools, 3000)
             self.$emit('load')
           })
         }
