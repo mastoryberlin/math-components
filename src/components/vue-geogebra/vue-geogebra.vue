@@ -371,13 +371,15 @@ export default {
         }
       }
 
+      const additionalTools = customTools.filter(t => t.id > 100000)
+
       self.settingJSON = true
       params.appletOnLoad = (api) => {
         if (api) {
           if (xml) {
             api.setXML(xml)
           } else if (this.settingJSON) {
-            if (images.length > 0 || customTools.length > 0) {
+            if (images.length > 0 || additionalTools.length > 0) {
               const json = api.getFileJSON()
 
               const imagesPart = json.archive.find(item => item.fileName === 'geogebra.xml')
@@ -442,14 +444,14 @@ export default {
               toolsPart.fileContent = `
 <?xml version="1.0" encoding="utf-8"?>
 <geogebra format="5.0" version="5.0.713.0" app="classic" platform="w"  xsi:noNamespaceSchemaLocation="http://www.geogebra.org/apps/xsd/ggt.xsd" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
-  ${customTools.map(t => `<macro cmdName="${t.name}" toolName="${t.hint || t.name}" toolHelp="${t.name}[  ]" iconFile="custom_tool_${t.name}.png" showInToolBar="true" copyCaptions="true" viewId="1">
+  ${additionalTools.map(t => `<macro cmdName="${t.name}" toolName="${t.hint || t.name}" toolHelp="${t.name}[  ]" iconFile="custom_tool_${t.name}.png" showInToolBar="true" copyCaptions="true" viewId="1">
     <macroInput/>
     <macroOutput/>
     <construction title="" author="" date="">
     </construction>
   </macro>`).join('\n')}
 </geogebra>`
-              json.archive.push(...customTools.map(t => ({
+              json.archive.push(...additionalTools.map(t => ({
                 fileName: `custom_tool_${t.name}.png`,
                 fileContent: t.src,
               })))
@@ -548,6 +550,13 @@ export default {
       if (this.api) { this.api.setHeight(this.displayHeight) }
       const ggbFrame = container.getElementsByClassName('GeoGebraFrame')[0]
       if (ggbFrame) { ggbFrame.style.height = (this.displayHeight - 54) + 'px' }
+      const modifiedTools = this.customTools.filter(t => t.id <= 100000)
+      for (const t of modifiedTools) {
+        const img = document.querySelector(`.toolbar_button[mode="${t.id}"] > .toolbar_icon`)
+        if (img) {
+          img.src = t.src
+        }
+      }
     },
 
     // =========================================================================

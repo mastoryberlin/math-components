@@ -452,6 +452,13 @@ export default {
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button[isSelected="true"] {
   background-color: #4D35C721;
 }
+.GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_submenu .submenuContent .gwt-Label {
+  padding: 7px 10px 0 7px;
+  font-family: "Matter" sans-serif;
+}
+.GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_submenu .submenuContent img {
+  display: none;
+}
 .ggbtoolbarpanel {
   margin: 20px;
   border-radius: 50px;
