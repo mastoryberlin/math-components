@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import { Geogebra, Formula, MapGeogebra } from "../";
+import { MastoryGeogebra, Formula, MapGeogebra } from "../";
 
 export default {
   name: "Worksheet",
-  components: { Geogebra, Formula, MapGeogebra },
+  components: { MastoryGeogebra, Formula, MapGeogebra },
   props: {
     template: {
       type: String,
@@ -33,7 +33,7 @@ export default {
 
       return {
         ...options,
-        components: { ...components, Geogebra, Formula, MapGeogebra },
+        components: { ...components, MastoryGeogebra, Formula, MapGeogebra },
         data: () => (data.constructor === Function ? data() : data),
         template: `<div id="previewArea">${this.template}</div>`,
       };
