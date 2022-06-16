@@ -552,8 +552,10 @@ export default {
       if (ggbFrame) { ggbFrame.style.height = (this.displayHeight - 54) + 'px' }
       const modifiedTools = this.customTools.filter(t => t.id <= 100000)
       for (const t of modifiedTools) {
+        console.log(`Modifying tool ${t.id} (${t.name})...`)
         const img = document.querySelector(`.toolbar_button[mode="${t.id}"] > .toolbar_icon`)
         if (img) {
+          console.log(`Found toolbar image - replacing by src=${t.src}`)
           img.src = t.src
         }
       }
