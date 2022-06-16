@@ -1,5 +1,7 @@
 export * from "./formula";
-export * from "./geogebra";
-export * from "./worksheet";
+export * from "./vue-geogebra";
+export * from "./mastory-geogebra";
 export * from "./openstreetmap";
 export * from "./map-geogebra";
+
+export * from "./worksheet";

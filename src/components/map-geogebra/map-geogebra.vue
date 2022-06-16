@@ -1,6 +1,13 @@
 <template lang="html">
-  <div class="map-geogebra__wrapper" :style="{height: osmHeight + 'px'}">
-    <div v-if="!transparent" class="map-geogebra__background" />
+  <div
+    class="map-geogebra__wrapper"
+    :style="{width: displayWidth + 'px', height: displayHeight + 'px'}"
+  >
+    <div
+      v-if="!transparent"
+      class="map-geogebra__background"
+      :style="{width: displayWidth + 'px', height: displayHeight + 'px'}"
+    />
     <openstreetmap
       v-model="osm"
       container="map"
@@ -12,7 +19,7 @@
       @input="initCoords"
     />
     <div class="map-geogebra__stacked">
-      <geogebra
+      <MastoryGeogebra
         ref="ggb"
         :value="value"
         :transparent="true"
@@ -25,6 +32,7 @@
         :xml="xml"
         :src="src"
         :toolbar="toolbar"
+        :enable-undo-redo="enableUndoRedo"
         @input="$emit('input', $event)"
         @load="onGeogebraLoad"
         @pan="onPan"
@@ -44,14 +52,14 @@
         <!-- Use the src argument to load a Geogebra worksheet from a URL
         Also, anything inside the pre tag will be constructed on top of that -->
         <slot />
-      </geogebra>
+      </MastoryGeogebra>
     </div>
     <slot name="extend" />
   </div>
 </template>
 
 <script>
-import { Geogebra, Openstreetmap } from '../'
+import { Openstreetmap, MastoryGeogebra } from '../'
 
 const LATITUDES = [-90, 90]
 const LONGITUDES = [-180, 180]
@@ -59,67 +67,26 @@ const LONGITUDES = [-180, 180]
 export default {
   name: 'MapGeogebra',
   components: {
-    Geogebra,
+    MastoryGeogebra,
     Openstreetmap,
   },
   props: {
-    value: {
-      type: Object,
-      default: () => ({ inputs: {}, outputs: {} }),
-    },
-    displayWidth: {
-      type: [Number, String],
-      default: '100%',
-    },
-    displayHeight: {
-      type: [Number, String],
-      default: 300,
-    },
+    value: { type: Object, default: () => ({ inputs: {}, outputs: {} }) },
+    displayWidth: { type: [Number, String], default: '100%' },
+    displayHeight: { type: [Number, String], default: 300 },
 
-    viewRect: {
-      type: Object,
-      default: () => ({ x: [-50, 50], y: [-50, 50], contain: false }),
-    },
-    allowZoom: {
-      type: Array,
-      default: () => [0, 1],
-    },
-    allowPan: {
-      type: Object,
-      default: () => ({x: LONGITUDES, y: LATITUDES}),
-    },
-    src: {
-      type: String,
-      default: null,
-    },
-    toolbar: {
-      type: [Array, String, Boolean],
-      default: 'move',
-    },
-    noFullscreen: {
-      type: Boolean,
-      default: true,
-    },
-    xml: {
-      type: String,
-      default: null,
-    },
-    offset: {
-      type: Object,
-      default: () => ({x: 0, y: 0}),
-    },
-    showMap: {
-      type: Boolean,
-      default: true,
-    },
-    transparent: {
-      type: Boolean,
-      default: false
-    },
-    spherical: {
-      type: Boolean,
-      default: false
-    },
+    viewRect: { type: Object, default: () => ({ x: [-50, 50], y: [-50, 50], contain: false }) },
+    allowZoom: { type: Array, default: () => [0, 1] },
+    allowPan: { type: Object, default: () => ({x: LONGITUDES, y: LATITUDES}) },
+    src: { type: String, default: null },
+    toolbar: { type: [Array, String, Boolean], default: 'move' },
+    noFullscreen: { type: Boolean, default: true },
+    xml: { type: String, default: null },
+    offset: { type: Object, default: () => ({x: 0, y: 0}) },
+    showMap: { type: Boolean, default: true },
+    transparent: { type: Boolean, default: false },
+    spherical: { type: Boolean, default: false },
+    enableUndoRedo: { type: Boolean, default: true },
   },
   data: () => ({
     osm: null,
