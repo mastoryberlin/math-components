@@ -520,7 +520,10 @@ export default {
 
           self.registerListeners()
           self.$emit('before-load')
-          self.$nextTick(() => {self.$emit('load')})
+          self.$nextTick(() => {
+            self.modifyTools()
+            self.$emit('load')
+          })
         }
       }
       // Create GGB applet
@@ -550,6 +553,11 @@ export default {
       if (this.api) { this.api.setHeight(this.displayHeight) }
       const ggbFrame = container.getElementsByClassName('GeoGebraFrame')[0]
       if (ggbFrame) { ggbFrame.style.height = (this.displayHeight - 54) + 'px' }
+    },
+
+    // -------------------------------------------------------------------------
+
+    modifyTools() {
       const modifiedTools = this.customTools.filter(t => t.id <= 100000)
       for (const t of modifiedTools) {
         console.log(`Modifying tool ${t.id} (${t.name})...`)
