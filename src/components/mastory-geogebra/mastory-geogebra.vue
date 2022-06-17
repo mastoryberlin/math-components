@@ -116,6 +116,13 @@ export default {
   watch: {
     toolbar() { this.resizeToolbar() },
   },
+  mounted() {
+    const value = {this}
+    if (!value.inequalities) {
+      value.inequalities = []
+      this.$emit('input', value)
+    }
+  },
   methods: {
 
     // =========================================================================
