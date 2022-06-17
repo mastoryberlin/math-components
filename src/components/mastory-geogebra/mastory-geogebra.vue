@@ -426,7 +426,7 @@ export default {
 
     // -------------------------------------------------------------------------
     goToDestination(coords) {
-      this.$emit('destinationPoint', {x: coords.x, y: coords.y})
+      this.$emit('destination', {x: coords.x, y: coords.y})
     },
     // -------------------------------------------------------------------------
 
