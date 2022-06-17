@@ -355,9 +355,9 @@ export default {
                     anchor: anchor || 'center',
                     x: x ? Number.parseFloat(x) : 0,
                     y: y ? Number.parseFloat(y) : 0,
-                    size: size ? Number.parseFloat(size) : 1,
-                    angle: angle ? Number.parseFloat(angle) : 0,
-                    visible: visible || true,
+                    size: size !== undefined ? Number.parseFloat(size) : 1,
+                    angle: angle !== undefined ? Number.parseFloat(angle) : 0,
+                    visible: visible !== undefined ? visible : true,
                     zoomable,
                     // handles,
                   }
