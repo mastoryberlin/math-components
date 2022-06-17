@@ -117,7 +117,7 @@ export default {
     toolbar() { this.resizeToolbar() },
   },
   mounted() {
-    const value = {this}
+    const { value } = this
     if (!value.inequalities) {
       value.inequalities = []
       this.$emit('input', value)
