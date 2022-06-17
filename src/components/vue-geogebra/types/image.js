@@ -137,6 +137,7 @@ export class Image extends GeogebraObject {
 
   resize() {
     const {atan2, sqrt, pow} = Math
+    const c = this.#corners
     const w2 = this.#w / 2
     const h2 = this.#h / 2
     c[BottomLeft].initialAngle = atan2(-h2, -w2)
