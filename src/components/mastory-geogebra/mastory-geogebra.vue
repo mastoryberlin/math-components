@@ -31,7 +31,7 @@
   >
     <img
       name="markOppositeAreaOverlay"
-      src="https://storage.googleapis.com/content_storage/shared/destination.png"
+      src="https://storage.googleapis.com/content_storage/shared/swap_area.png"
       :visible="false"
       fixed-size
     >
