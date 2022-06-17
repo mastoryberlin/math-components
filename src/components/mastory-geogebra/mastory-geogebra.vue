@@ -351,6 +351,7 @@ export default {
             inequality.inequality.selectable = false
             inequality.showHandles = false
             this.ineqCnt++
+            this.selectedInequality = null
 
             this.$emit('input', value)
             this.value.api.setUndoPoint()
