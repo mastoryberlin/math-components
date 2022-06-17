@@ -413,11 +413,12 @@ export default {
       value.remove(inequality)
       const k = value.inequalities.indexOf(inequality)
       // let newName
-      // if (k < value.inequalities.length - 1) {
-      //   const [color] = this.colorCycle.splice(k, 1)
-      //   this.colorCycle.push(color)
-      // }
+      if (k < value.inequalities.length - 1) {
+        const [color] = this.colorCycle.splice(k, 1)
+        this.colorCycle.push(color)
+      }
       value.inequalities.splice(k, 1)
+      value.markOppositeAreaOverlay.visible = false
       this.$emit('input', value)
       this.value.api.setUndoPoint()
     },
