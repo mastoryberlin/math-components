@@ -77,6 +77,25 @@ export class Image extends GeogebraObject {
 
   // -------------------------------------------------------------------------
 
+  set width(v) {
+    const r = v / this.#w
+    this.#w = v
+    this.#h *= r
+    this.resize()
+    this.x = this.#x
+    this.y = this.#y
+  }
+  set height(v) {
+    const r = v / this.#h
+    this.#h = v
+    this.#w *= r
+    this.resize()
+    this.x = this.#x
+    this.y = this.#y
+  }
+
+  // -------------------------------------------------------------------------
+
   get angle() { return this.#angle }
   set angle(v) {
     this.#angle = v
@@ -104,13 +123,7 @@ export class Image extends GeogebraObject {
     const c = this.#corners
     this.#w = c[BottomRight].x - c[BottomLeft].x
     this.#h = c[TopLeft].y - c[BottomLeft].y
-    const {atan2, sqrt, pow} = Math
-    const w2 = this.#w / 2
-    const h2 = this.#h / 2
-    c[BottomLeft].initialAngle = atan2(-h2, -w2)
-    c[BottomLeft].radius = sqrt(pow(w2, 2) + pow(h2, 2))
-    c[BottomRight].initialAngle = atan2(-h2, w2)
-    c[BottomRight].radius = sqrt(pow(w2, 2) + pow(h2, 2))
+    this.resize()
     this.x = this.#x
     this.y = this.#y
     if (dontCreate) {
@@ -118,5 +131,17 @@ export class Image extends GeogebraObject {
     }
     //TODO: Create image dynamically (is this even posssible ??)
     this.onCreated()
+  }
+
+  // -------------------------------------------------------------------------
+
+  resize() {
+    const {atan2, sqrt, pow} = Math
+    const w2 = this.#w / 2
+    const h2 = this.#h / 2
+    c[BottomLeft].initialAngle = atan2(-h2, -w2)
+    c[BottomLeft].radius = sqrt(pow(w2, 2) + pow(h2, 2))
+    c[BottomRight].initialAngle = atan2(-h2, w2)
+    c[BottomRight].radius = sqrt(pow(w2, 2) + pow(h2, 2))
   }
 }
