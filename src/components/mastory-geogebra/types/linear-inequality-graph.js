@@ -9,7 +9,7 @@ export class LinearInequalityGraph extends GeogebraObject {
     hover: 0.5,
   }
   static flash = {
-    speed: 1,
+    speed: 2,
     count: 3,
   }
 
