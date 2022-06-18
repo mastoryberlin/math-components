@@ -67,7 +67,7 @@ export class Point extends GeogebraObject {
   attach(apiObject, dontCreate) {
     if (this.api) { return }
     super.attach(apiObject)
-    if (dontCreate || this.#definition ) { return }
+    if (dontCreate || (this.#x === undefined && this.#y === undefined) ) { return }
     apiObject.evalCommand(`${this.name} = (${this.#x}, ${this.#y})`)
     this.onCreated()
   }
