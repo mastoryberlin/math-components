@@ -2,10 +2,12 @@ import { GeogebraObject } from './geogebra-object'
 
 export class Point extends GeogebraObject {
   #x; #y
-  constructor(name, x, y) {
-    super(name, 'Point')
-    this.#x = x
-    this.#y = y
+  constructor(name, x, y, options) {
+    super(name, 'Point', options)
+    if (!options || !options.definition) {
+      this.#x = x
+      this.#y = y
+    }
     this.length = 2
   }
 

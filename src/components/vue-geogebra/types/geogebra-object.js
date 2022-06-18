@@ -46,7 +46,12 @@ export class GeogebraObject {
       return this.#definition
     }
   }
-  set definition(d) { this.#definition = d }
+  set definition(d) {
+    if (this.#api) {
+      this.#api.evalCommand(`${this.#name}: ${d}`)
+    }
+    this.#definition = d
+  }
 
   set visible(v) {
     if (this.#api) {
@@ -103,6 +108,9 @@ export class GeogebraObject {
       }
     } else {
       this.#api = apiObject
+      if (this.#definition) {
+        this.definition = this.#definition
+      }
     }
   }
   detach() {
