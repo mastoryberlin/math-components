@@ -213,34 +213,36 @@ export default {
     // -------------------------------------------------------------------------
 
     onSelect(name) {
-      console.log('selected', name, this.value[name], this.value)
-      const indx = this.findObjIdx(name)
-      const ineqName = indexedName(indx).inequalityGraph
-      const inequality = this.findInequalityByName(`ineq__${ineqName}`)
-      const objName = this.value[name].name
-      const objType = this.value[name].type
-      if (inequality) {
-        switch (objType) {
-        case 'LinearInequality': case 'Point':
-          {
-            this.selectedInequality = inequality
-            inequality.showHandles = true
-            const {handles} = inequality
-            const {value} = this
-            const updatePosition = () => {
+      if (this.value[name]) {
+        console.log('selected', name, this.value[name], this.value)
+        const indx = this.findObjIdx(name)
+        const ineqName = indexedName(indx).inequalityGraph
+        const inequality = this.findInequalityByName(`ineq__${ineqName}`)
+        const objName = this.value[name].name
+        const objType = this.value[name].type
+        if (inequality) {
+          switch (objType) {
+            case 'LinearInequality': case 'Point':
+            {
+              this.selectedInequality = inequality
+              inequality.showHandles = true
+              const {handles} = inequality
               const {value} = this
-              value.markOppositeAreaOverlay.x = (handles[0].x + handles[1].x) / 2
-              value.markOppositeAreaOverlay.y = (handles[0].y + handles[1].y) / 2
+              const updatePosition = () => {
+                const {value} = this
+                value.markOppositeAreaOverlay.x = (handles[0].x + handles[1].x) / 2
+                value.markOppositeAreaOverlay.y = (handles[0].y + handles[1].y) / 2
+                this.$emit('input', value)
+              }
+              updatePosition()
+              value.markOppositeAreaOverlay.visible = true
               this.$emit('input', value)
             }
-            updatePosition()
-            value.markOppositeAreaOverlay.visible = true
-            this.$emit('input', value)
           }
+        } else if (objName === 'markOppositeAreaOverlay') {
+          this.selectedInequality.inequality.oppositeSign()
+          return
         }
-      } else if (objName === 'markOppositeAreaOverlay') {
-        this.selectedInequality.inequality.oppositeSign()
-        return
       }
       this.$emit('select', name)
     },
@@ -248,25 +250,27 @@ export default {
     // -------------------------------------------------------------------------
 
     onDeselect(name) {
-      const indx = this.findObjIdx(name)
-      const ineqName = indexedName(indx).inequalityGraph
-      const inequality = this.findInequalityByName(`ineq__${ineqName}`)
-      const objName = this.value[name].name
-      const objType = this.value[name].type
-      const {value} = this
-      if (inequality) {
-        if (objType === 'LinearInequality') {
-          this.selectedInequality = inequality
-          inequality.showHandles = false
+      if (this.value[name]) {
+        const indx = this.findObjIdx(name)
+        const ineqName = indexedName(indx).inequalityGraph
+        const inequality = this.findInequalityByName(`ineq__${ineqName}`)
+        const objName = this.value[name].name
+        const objType = this.value[name].type
+        const {value} = this
+        if (inequality) {
+          if (objType === 'LinearInequality') {
+            this.selectedInequality = inequality
+            inequality.showHandles = false
+            value.markOppositeAreaOverlay.visible = false
+          } else if (objType === 'Point') {
+            value.markOppositeAreaOverlay.visible = false
+            inequality.showHandles = false
+          }
+          this.$emit('input', value)
+        } else if (objName === 'markOppositeAreaOverlay') {
           value.markOppositeAreaOverlay.visible = false
-        } else if (objType === 'Point') {
-          value.markOppositeAreaOverlay.visible = false
-          inequality.showHandles = false
+          this.$emit('input', value)
         }
-        this.$emit('input', value)
-      } else if (objName === 'markOppositeAreaOverlay') {
-        value.markOppositeAreaOverlay.visible = false
-        this.$emit('input', value)
       }
       this.$emit('deselect', name)
     },

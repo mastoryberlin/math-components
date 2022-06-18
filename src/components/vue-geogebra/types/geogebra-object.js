@@ -9,9 +9,9 @@ export class GeogebraObject {
   #selectable = true
   #caption
   constructor(name, type = 'GeogebraObject', options) {
-    console.log(`Creating ${type} instance`, options)
     this.#name = name
     this.#type = type || 'GeogebraObject'
+    console.log(`Creating ${this.#type} instance`, options)
     if (options) {
       const {definition, visible, color, fixed, selectable, caption} = options
       if (visible !== undefined) {this.#visible = visible}
