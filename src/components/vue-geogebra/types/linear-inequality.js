@@ -165,7 +165,6 @@ export class LinearInequality extends GeogebraObject {
   // -------------------------------------------------------------------------
 
   invokeEvalWithDefinitionString() {
-    if (!this.api) { return }
     const s = this.#sign
     const m = this.#slope
     const r = this.#xIntercept
@@ -176,6 +175,8 @@ export class LinearInequality extends GeogebraObject {
     } else {
       ineqStr = `y ${s} ${m}x + ${b}`
     }
+    this.definition = ineqStr
+    if (!this.api) { return }
     this.api.evalCommand(`${this.name}: ${ineqStr}`)
   }
 
