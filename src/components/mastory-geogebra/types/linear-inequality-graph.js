@@ -64,17 +64,16 @@ export class LinearInequalityGraph extends GeogebraObject {
   }
 
   async flash() {
-    const low = [...this.color]
-    low[3] = this.constructor.opacity.default
-    const high = [...this.color]
-    high[3] = this.constructor.opacity.selected
+    const c = this.color
+    const low = [...c]; low[3] = this.constructor.opacity.default
+    const high = [...c]; high[3] = this.constructor.opacity.selected
     const flashColors = [low, high]
     const sleepTime = 250 / (this.constructor.flash.speed || 1)
     const count = (this.constructor.flash.count || 3) * 2
     for (let i = 0; i < count; i++) {
-      const c = flashColors[i % 2]
-      this.#inequality.color = c
-      this.#line.color = c
+      const f = flashColors[i % 2]
+      this.#inequality.color = f
+      this.#line.color = f
       await sleep(sleepTime)
     }
   }
