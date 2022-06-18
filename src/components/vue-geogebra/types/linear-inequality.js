@@ -175,7 +175,22 @@ export class LinearInequality extends GeogebraObject {
     } else {
       ineqStr = `y ${s} ${m}x + ${b}`
     }
-    console.log(`Changing ${this.name}'s defintion to ${ineqStr}`)
     this.api.evalCommand(`${this.name}: ${ineqStr}`)
+  }
+
+  // -------------------------------------------------------------------------
+
+  contains(x, y) {
+    if (typeof x === 'object' && y === undefined) {
+      y = x.y; x = x.x
+    }
+    let params
+    switch (this.isAxisParallel) {
+    case 'x': params = `${y}`; break
+    case 'y': params = `${x}`; break
+    default: params = `${x}, ${y}`
+    }
+    const v = this.api.getValue(`${this.name}(${params})`)
+    return v === 1
   }
 }
