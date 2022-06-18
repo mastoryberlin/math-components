@@ -108,9 +108,12 @@ export class GeogebraObject {
       }
     } else {
       this.#api = apiObject
-      if (this.#definition) {
-        this.definition = this.#definition
-      }
+      if (this.#definition !== undefined) {this.definition = this.#definition}
+      if (this.#visible !== undefined) {this.visible = this.#visible}
+      if (this.#color !== undefined) {this.color = this.#color}
+      if (this.#fixed !== undefined) {this.fixed = this.#fixed}
+      if (this.#selectable !== undefined) {this.selectable = this.#selectable}
+      if (this.#caption !== undefined) {this.caption = this.#caption}
     }
   }
   detach() {
