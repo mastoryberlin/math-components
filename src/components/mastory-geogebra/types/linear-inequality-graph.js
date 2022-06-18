@@ -62,6 +62,7 @@ export class LinearInequalityGraph extends GeogebraObject {
     this.#line.color = c
     this.#handles.forEach(p => {p.color = c})
   }
+  get color() { return super.color }
 
   async flash() {
     const c = this.color
