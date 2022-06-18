@@ -1,10 +1,16 @@
 import { GeogebraObject, LinearInequality } from '../../vue-geogebra'
 
+const sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
+
 export class LinearInequalityGraph extends GeogebraObject {
   static opacity = {
     default: 0.2,
     selected: 0.5,
     hover: 0.5,
+  }
+  static flash = {
+    speed: 1,
+    count: 3,
   }
 
   #handles; #inequality; #line;
@@ -55,6 +61,22 @@ export class LinearInequalityGraph extends GeogebraObject {
     this.#inequality.color = semitransparent
     this.#line.color = c
     this.#handles.forEach(p => {p.color = c})
+  }
+
+  async flash() {
+    const low = [...this.color]
+    low[3] = this.constructor.opacity.default
+    const high = [...this.color]
+    high[3] = this.constructor.opacity.selected
+    const flashColors = [low, high]
+    const sleepTime = 250 / (this.constructor.flash.speed || 1)
+    const count = (this.constructor.flash.count || 3) * 2
+    for (let i = 0; i < count; i++) {
+      const c = flashColors[i % 2]
+      this.#inequality.color = c
+      this.#line.color = c
+      await sleep(sleepTime)
+    }
   }
 
   attach(apiObject, dontCreate) {
