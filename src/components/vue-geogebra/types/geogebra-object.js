@@ -1,11 +1,4 @@
-const sleep = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
-
 export class GeogebraObject {
-  static flash = {
-    speed: 2,
-    count: 3,
-  }
-
   #name
   #type
   #api = null
@@ -99,6 +92,10 @@ export class GeogebraObject {
     this.#caption = c
   }
 
+  // =========================================================================
+  // Methods
+  // =========================================================================
+
   attach(apiObject) {
     if (this.#api) {
       if (this.#api !== apiObject) {
@@ -117,17 +114,7 @@ export class GeogebraObject {
     }
   }
 
-  async flash(color1, color2, speed = 1, count = 3) {
-    const flashColors = [color2, color1]
-    const sleepTime = 250 / speed
-    const double = count * 2
-    for (let i = 0; i < double; i++) {
-      const f = flashColors[i % 2]
-      this.#inequality.color = f
-      this.#line.color = f
-      await sleep(sleepTime)
-    }
-  }
+  // -------------------------------------------------------------------------
 
   onCreated() {
     // Pass on all initial options to Geogebra
@@ -137,6 +124,8 @@ export class GeogebraObject {
     }
     //TODO: handle the others as well
   }
+
+  // -------------------------------------------------------------------------
 
   withoutRepaint(doStuff) {
     if (!this.#api) { throw new Error('withoutRepaint needs an API object attached') }
