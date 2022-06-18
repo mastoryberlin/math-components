@@ -155,10 +155,10 @@ export class LinearInequality extends GeogebraObject {
     const s = this.sign
     if (s.includes('<')) {
       this.sign = s.replace('<', '>')
-      this.invokeEvalWithDefinitionString()
+      return this.invokeEvalWithDefinitionString()
     } else if (s.includes('>')) {
       this.sign = s.replace('>', '<')
-      this.invokeEvalWithDefinitionString()
+      return this.invokeEvalWithDefinitionString()
     }
   }
 
@@ -176,8 +176,9 @@ export class LinearInequality extends GeogebraObject {
       ineqStr = `y ${s} ${m}x + ${b}`
     }
     this.definition = ineqStr
-    if (!this.api) { return }
+    if (!this.api) { return ineqStr }
     this.api.evalCommand(`${this.name}: ${ineqStr}`)
+    return ineqStr
   }
 
   // -------------------------------------------------------------------------
