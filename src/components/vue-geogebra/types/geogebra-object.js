@@ -69,7 +69,7 @@ export class GeogebraObject {
   set fixed(f) {
     if (this.#api) {
       if (this.#api.exists(this.name)) {
-        this.#api.setFixed(this.name, f)
+        this.#api.setFixed(this.name, f, this.selectable)
       }
     }
     this.#fixed = f
@@ -121,6 +121,7 @@ export class GeogebraObject {
     console.log('onCreated called')
     if (this.#api) {
       this.#api.setVisible(this.name, this.#visible)
+      this.#api.setFixed(this.name, this.#fixed, this.#selectable)
     }
     //TODO: handle the others as well
   }
