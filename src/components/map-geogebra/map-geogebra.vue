@@ -112,19 +112,9 @@ export default {
   },
   mounted() {
     window.addEventListener('resize', () => {
-      const m = document.getElementById('map')
-      if (m) {
-        const s = m.getClientRects()[0]
-        this.osmWidth = s.width
-        this.osmHeight = s.height
-      }
+      this.resize()
     })
-    const m = document.getElementById('map')
-    if (m) {
-      const s = m.getClientRects()[0]
-      this.osmWidth = s.width
-      this.osmHeight = s.height
-    }
+    this.resize()
   },
   methods: {
     injectGeogebra(applet) {
@@ -181,6 +171,14 @@ export default {
       }
       this.$emit('zoom', level)
     },
+    resize() {
+      const m = document.getElementById('map')
+      if (m) {
+        const s = m.getClientRects()[0]
+        this.osmWidth = s.width
+        this.osmHeight = s.height
+      }
+    }
   },
 }
 </script>
