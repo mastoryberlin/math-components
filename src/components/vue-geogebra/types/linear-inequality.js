@@ -19,6 +19,12 @@ export function parseString(string) {
   }
 }
 
+// -------------------------------------------------------------------------
+
+const close = (a, b, tolerance) => Math.abs(a - b) <= tolerance
+
+// -------------------------------------------------------------------------
+
 export class LinearInequality extends GeogebraObject {
   #sign; #slope; #yIntercept; #xIntercept;
   constructor(name, sign, slope, yIntercept, xIntercept) {
@@ -195,5 +201,75 @@ export class LinearInequality extends GeogebraObject {
     }
     const v = this.api.getValue(`${this.name}(${params})`)
     return v === 1
+  }
+
+  // -------------------------------------------------------------------------
+
+  equals(other, t = 0, s = 0) {
+    if (other.constructor !== LinearInequality) { throw new TypeError('Cannot compare LinearInequality to value or object of a different type') }
+    return this.sign === other.sign &&
+        close(this.slope, other.slope, s) &&
+        close(this.yIntercept, other.yIntercept, t)
+  }
+
+  // -------------------------------------------------------------------------
+
+  checkAgainst(others, t = 0, s = 0) {
+    const incomparable = others.find(other => other.constructor !== LinearInequality)
+    if (incomparable) {
+      console.error('Cannot compare LinearInequality to value or object of a different type', incomparable)
+      throw new TypeError('Cannot compare LinearInequality to value or object of a different type')
+    }
+
+    const yInterceptsMatch = other => close(other.yIntercept, this.yIntercept, t)
+    const slopesMatch = other => close(other.slope, this.slope, s)
+    const signsMatch = other => other.sign === this.sign
+
+    const commonMistakePatterns = {
+      mixedUpSlopeAndYIntercept: other =>
+        signsMatch(other) &&
+        close(this.yIntercept, other.slope, t) &&
+        close(this.slope, other.yIntercept, s),
+      yInterceptFlipped: other =>
+        signsMatch(other) &&
+        slopesMatch(other) &&
+        close(this.yIntercept, -other.yIntercept, t),
+      yInterceptWrong: other =>
+        signsMatch(other) &&
+        slopesMatch(other),
+      slopeFlipped: other =>
+        signsMatch(other) &&
+        yInterceptsMatch(other) &&
+        close(Math.abs(this.slope), Math.abs(other.slope), s) &&
+        Math.sign(this.slope) === -Math.sign(other.slope),
+      slopeReciprocal: (other) => {
+        const recip = 1 / other.slope
+        if (recip.isNaN) { return false }
+        return signsMatch(other) &&
+          yInterceptsMatch(other) &&
+          close(this.slope, recip, s)
+      },
+      signFlipped: other =>
+        yInterceptsMatch(other) &&
+        slopesMatch(other),
+      slopeHasWrongSign: other =>
+        signsMatch(other) &&
+        yInterceptsMatch(other) &&
+        Math.sign(other.slope) !== Math.sign(this.slope),
+      slopeWrong: other =>
+        signsMatch(other) &&
+        yInterceptsMatch(other),
+    }
+
+    const m = others.find(o => o.equals(this, t, s))
+    if (m) { return [m, 'equal'] }
+
+    for (const o of others) {
+      for (const [mistakeName, check] of Object.entries(commonMistakePatterns)) {
+        if (check(o)) { return [o, mistakeName] }
+      }
+    }
+
+    return [null, undefined]
   }
 }
