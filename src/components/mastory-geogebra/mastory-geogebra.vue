@@ -346,9 +346,7 @@ export default {
           {
             const inequality = this.addInequalityInProgress
             const {value} = this
-            if (value.inequalities) { value.inequalities.push(inequality) }
-            else { value.inequalities = [inequality] }
-            // deselect inequality
+            value.inequalities.push(inequality)
             this.addInequalitiesCount++
             this.addInequalityInProgress = null // -> after this, addInequalityPhase will be 0
             value.tool = 'move'

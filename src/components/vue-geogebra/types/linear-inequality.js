@@ -1,6 +1,6 @@
 import { GeogebraObject } from './geogebra-object'
 
-export function parseString(string) {
+function parseString(string) {
   const m = string.replaceAll(' ', '').match(/^y(<|>|=|<=|>=|≤|≥)(?:([+-]?(?:\d|\.)*)[×|·]?x([+-](?:\d|\.)*)|([+-]?(?:\d|\.)*)([+-](?:\d|\.)*)[×|·]?x|([+-]?(?:\d|\.)*)|([+-]?(?:\d|\.)*)[×|·]?x)$|^x(<|>|=|<=|>=|≤|≥)([+-]?(?:\d|\.)*)/)
   if (m) {
     if (m[8]) {
