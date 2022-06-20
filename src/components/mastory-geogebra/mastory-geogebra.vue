@@ -240,6 +240,7 @@ export default {
           }
         } else if (objName === 'markOppositeAreaOverlay') {
           this.selectedInequality.inequality.oppositeSign()
+          this.$emit('update-inequality', this.selectedInequality)
           return
         }
       }
