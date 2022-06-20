@@ -22,7 +22,7 @@
     @select="onSelect"
     @deselect="onDeselect"
     @click="onClick"
-    @drop="$emit('drop', $event)"
+    @drop="onDrop"
     @zoom="onZoom"
     @tool="onTool"
     @hover="onHover"
@@ -192,11 +192,10 @@ export default {
         value.markOppositeAreaOverlay.x = (handle1.x + handle2.x) / 2
         value.markOppositeAreaOverlay.y = (handle1.y + handle2.y) / 2
         value.markOppositeAreaOverlay.visible = true
-
+        this.$emit('update-inequality', inequality)
         this.$emit('input', value)
-      } else {
-        this.$emit('update', objName)
       }
+      this.$emit('update', objName)
     },
 
     // -------------------------------------------------------------------------
@@ -355,6 +354,7 @@ export default {
             this.ineqCnt++
             this.selectedInequality = null
 
+            this.$emit('add-inequality', inequality)
             this.$emit('input', value)
             this.value.api.setUndoPoint()
           }
@@ -422,6 +422,7 @@ export default {
       }
       value.inequalities.splice(k, 1)
       value.markOppositeAreaOverlay.visible = false
+      this.$emit('remove-inequality', inequality)
       this.$emit('input', value)
       this.value.api.setUndoPoint()
     },
