@@ -208,13 +208,14 @@ export class LinearInequality extends GeogebraObject {
   equals(other, t = 0, s = 0) {
     if (other.constructor !== LinearInequality) { throw new TypeError('Cannot compare LinearInequality to value or object of a different type') }
     return this.sign === other.sign &&
-        close(this.slope, other.slope, s) &&
+        close(atan2(this.slope, 1), atan2(other.slope, 1), s) &&
         close(this.yIntercept, other.yIntercept, t)
   }
 
   // -------------------------------------------------------------------------
 
   checkAgainst(others, t = 0, s = 0) {
+    const {atan2} = Math
     const incomparable = others.find(other => other.constructor !== LinearInequality)
     if (incomparable) {
       console.error('Cannot compare LinearInequality to value or object of a different type', incomparable)
@@ -222,7 +223,7 @@ export class LinearInequality extends GeogebraObject {
     }
 
     const yInterceptsMatch = other => close(other.yIntercept, this.yIntercept, t)
-    const slopesMatch = other => close(other.slope, this.slope, s)
+    const slopesMatch = other => close(atan2(other.slope, 1), atan2(this.slope, 1), s)
     const signsMatch = other => other.sign === this.sign
 
     const commonMistakePatterns = {
@@ -240,14 +241,13 @@ export class LinearInequality extends GeogebraObject {
       slopeFlipped: other =>
         signsMatch(other) &&
         yInterceptsMatch(other) &&
-        close(Math.abs(this.slope), Math.abs(other.slope), s) &&
-        Math.sign(this.slope) === -Math.sign(other.slope),
+        close(atan2(other.slope, 1), atan2(this.slope, 1), s),
       slopeReciprocal: (other) => {
         const recip = 1 / other.slope
         if (recip.isNaN) { return false }
         return signsMatch(other) &&
           yInterceptsMatch(other) &&
-          close(this.slope, recip, s)
+          close(atan2(recip, 1), atan2(this.slope, 1), s)
       },
       signFlipped: other =>
         yInterceptsMatch(other) &&

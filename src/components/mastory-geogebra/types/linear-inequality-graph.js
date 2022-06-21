@@ -119,23 +119,21 @@ export class LinearInequalityGraph extends GeogebraObject {
       if (thisPoint.y === otherPoint.y) { return }
       this.#suspendLineUpdateListener = true
       // TODO: Improve UX by calling ineq.oppositeSign() conditionally
-      ineq.slope = Infinity
-      ineq.xIntercept = thisPoint.x
-      ineq.yIntercept = undefined
-      eq.slope = Infinity
-      eq.xIntercept = thisPoint.x
-      eq.yIntercept = undefined
+      eq.fixed = false
+      eq.slope = ineq.slope = Infinity
+      eq.xIntercept = ineq.xIntercept = thisPoint.x
+      eq.yIntercept = ineq.yIntercept = undefined
+      eq.fixed = true
       this.#suspendLineUpdateListener = false
     } else {
       const slope = (otherPoint.y - thisPoint.y) / (otherPoint.x - thisPoint.x)
       const yIntercept = thisPoint.y - slope * thisPoint.x
       this.#suspendLineUpdateListener = true
-      ineq.slope = slope
-      ineq.xIntercept = -yIntercept / slope
-      ineq.yIntercept = yIntercept
-      eq.slope = slope
-      eq.xIntercept = -yIntercept / slope
-      eq.yIntercept = yIntercept
+      eq.fixed = false
+      eq.slope = ineq.slope = slope
+      eq.xIntercept = ineq.xIntercept = -yIntercept / slope
+      eq.yIntercept = ineq.yIntercept = yIntercept
+      eq.fixed = true
       this.#suspendLineUpdateListener = false
     }
   }

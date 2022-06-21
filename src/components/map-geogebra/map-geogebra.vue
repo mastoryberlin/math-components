@@ -33,6 +33,7 @@
         :src="src"
         :toolbar="toolbar"
         :enable-undo-redo="enableUndoRedo"
+        :use3d="use3d"
         @input="$emit('input', $event)"
         @load="onGeogebraLoad"
         @pan="onPan"
@@ -91,6 +92,7 @@ export default {
     transparent: { type: Boolean, default: false },
     spherical: { type: Boolean, default: false },
     enableUndoRedo: { type: Boolean, default: true },
+    use3d: { type: Boolean, default: false },
   },
   data: () => ({
     osm: null,

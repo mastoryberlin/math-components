@@ -27,6 +27,7 @@ export default {
     transparent: { type: Boolean, default: false },
     noFullscreen: { type: Boolean, default: false },
     customTools: { type: Array, default: () => ([]) },
+    use3d: { type: Boolean, default: false },
 
     // Props that directly forward to Geogebra applet params
     capturingThreshold: { type: Number, default: 3 },
@@ -208,6 +209,7 @@ export default {
         transparent,
         noFullscreen,
         customTools,
+        use3d,
 
         capturingThreshold,
         scale,
@@ -232,7 +234,7 @@ export default {
         width: this.displayWidth,
         height: this.displayHeight - 120,
         enableRightClick: false,
-        perspective: 'G',
+        perspective: use3d ? 'T' : 'G',
         showMenuBar: false,
         showAlgebraInput: false,
         showToolBarHelp: false,

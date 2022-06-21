@@ -13,16 +13,17 @@
     :toolbar="toolbar"
     :custom-tools="customTools"
     :enable-undo-redo="enableUndoRedo"
+    :use3d="use3d"
     @input="$emit('input', $event)"
     @pan="$emit('pan', $event)"
     @add="$emit('add', $event)"
     @remove="$emit('remove', $event)"
+    @drop="$emit('drop', $event)"
     @update="onUpdate"
     @load="onLoad"
     @select="onSelect"
     @deselect="onDeselect"
     @click="onClick"
-    @drop="onDrop"
     @zoom="onZoom"
     @tool="onTool"
     @hover="onHover"
@@ -88,6 +89,7 @@ export default {
     transparent: { type: Boolean, default: false },
     noFullscreen: { type: Boolean, default: false },
     enableUndoRedo: { type: Boolean, default: true },
+    use3d: { type: Boolean, default: false },
   },
   data: () => ({
     customTools,
