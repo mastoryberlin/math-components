@@ -207,6 +207,7 @@ export class LinearInequality extends GeogebraObject {
 
   equals(other, t = 0, s = 0) {
     if (other.constructor !== LinearInequality) { throw new TypeError('Cannot compare LinearInequality to value or object of a different type') }
+    const {atan2} = Math
     return this.sign === other.sign &&
         close(atan2(this.slope, 1), atan2(other.slope, 1), s) &&
         close(this.yIntercept, other.yIntercept, t)
