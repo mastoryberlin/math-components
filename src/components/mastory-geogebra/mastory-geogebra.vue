@@ -347,6 +347,7 @@ export default {
         case 2:
           {
             const inequality = this.addInequalityInProgress
+            inequality.sign = sideToSign(inequality, coords)
             const {value} = this
             value.inequalities.push(inequality)
             this.addInequalitiesCount++
