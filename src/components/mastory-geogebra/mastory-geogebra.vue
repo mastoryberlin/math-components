@@ -197,11 +197,12 @@ export default {
         const {value} = this
         inequality.showHandles = true
         const [handle1, handle2] = inequality.handles
-        ['L2G', 'G2L'].forEach(lg => {
-          value[`markOppositeAreaOverlay${lg}`].x = (handle1.x + handle2.x) / 2
-          value[`markOppositeAreaOverlay${lg}`].y = (handle1.y + handle2.y) / 2
-          value[`markOppositeAreaOverlay${lg}`].visible = true
-        })
+        for (const lg of ['L2G', 'G2L']) {
+          const img = value[`markOppositeAreaOverlay${lg}`]
+          img.x = (handle1.x + handle2.x) / 2
+          img.y = (handle1.y + handle2.y) / 2
+          img.visible = true
+        }
         this.$emit('update-inequality', inequality)
         this.$emit('input', value)
       }
@@ -238,13 +239,13 @@ export default {
               const {handles} = inequality
               const {value} = this
               const updatePosition = () => {
-                const {value} = this
-                ['L2G', 'G2L'].forEach(lg => {
+                const { value } = this
+                for (const lg of ['L2G', 'G2L']) {
                   const img = value[`markOppositeAreaOverlay${lg}`]
                   img.x = (handles[0].x + handles[1].x) / 2
                   img.y = (handles[0].y + handles[1].y) / 2
                   img.angle = Math.atan2(inequality.slope, 1) * 180 / Math.PI
-                })
+                }
                 this.$emit('input', value)
               }
               updatePosition()
@@ -278,14 +279,10 @@ export default {
           if (objType === 'LinearInequality') {
             this.selectedInequality = inequality
             inequality.showHandles = false
-            ['L2G', 'G2L'].forEach(lg => {
-              value[`markOppositeAreaOverlay${lg}`].visible = false
-            })
+            for (const lg of ['L2G', 'G2L']) { value[`markOppositeAreaOverlay${lg}`].visible = false  }
           } else if (objType === 'Point') {
-            ['L2G', 'G2L'].forEach(lg => {
-              value[`markOppositeAreaOverlay${lg}`].visible = false
-            })
             inequality.showHandles = false
+            for (const lg of ['L2G', 'G2L']) { value[`markOppositeAreaOverlay${lg}`].visible = false  }
           }
           this.$emit('input', value)
         } else if (['markOppositeAreaOverlayL2G', 'markOppositeAreaOverlayG2L'].includes(objName)) {
@@ -452,9 +449,7 @@ export default {
         this.colorCycle.push(color)
       }
       value.inequalities.splice(k, 1)
-      ['L2G', 'G2L'].forEach(lg => {
-        value[`markOppositeAreaOverlay${lg}`].visible = false
-      })
+      for (const lg of ['L2G', 'G2L']) { value[`markOppositeAreaOverlay${lg}`].visible = false }
       this.$emit('remove-inequality', inequality)
       this.$emit('input', value)
       this.value.api.setUndoPoint()
