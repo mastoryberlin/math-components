@@ -101,13 +101,8 @@ export default {
     customTools,
     colorCycle,
     addInequalityInProgress: null,
-    addInequalitiesCount: 0,
     selectedInequality: null,
-    overlayText: null,
-    shipPoint: [0, 0],
-    destination: null,
     animator: null,
-    ineqCnt: 0,
   }),
   computed: {
     addInequalityPhase() {
@@ -126,10 +121,10 @@ export default {
   },
   mounted() {
     const { value } = this
-    if (!value.inequalities) {
-      value.inequalities = []
-      this.$emit('input', value)
-    }
+    if (!value.inequalities) { value.inequalities = [] }
+    if (!value._mastoryData) { value._mastoryData = {} }
+    if (!value._mastoryData.addInequalitiesCount ) { value._mastoryData.addInequalitiesCount = 0 }
+    this.$emit('input', value)
   },
   methods: {
 
@@ -201,7 +196,9 @@ export default {
           const img = value[`markOppositeAreaOverlay${lg}`]
           img.x = (handle1.x + handle2.x) / 2
           img.y = (handle1.y + handle2.y) / 2
-          img.visible = true
+          img.angle = Math.atan2(inequality.slope, 1) * 180 / Math.PI
+          const fits = {'≤': 'L2G', '<': 'L2G', '≥': 'G2L', '>': 'G2L'}[inequality.sign[0]] === lg
+          img.visible = fits
         }
         this.$emit('update-inequality', inequality)
         this.$emit('input', value)
@@ -340,11 +337,11 @@ export default {
     // -------------------------------------------------------------------------
 
     addInequality(coords) {
-      if (this.ineqCnt < 5) {
+      if (this.value && this.value.inequalities.length < 5) {
         const {x, y} = coords
         const {value, addInequalityPhase, colorCycle } = this
 
-        const i = this.addInequalitiesCount
+        const i = value._mastoryData.addInequalitiesCount
         const color = colorCycle[i % colorCycle.length]
 
         switch (addInequalityPhase) {
@@ -373,12 +370,11 @@ export default {
             inequality.sign = sideToSign(inequality, coords)
             const {value} = this
             value.inequalities.push(inequality)
-            this.addInequalitiesCount++
+            value._mastoryData.addInequalitiesCount++
             this.addInequalityInProgress = null // -> after this, addInequalityPhase will be 0
             value.tool = 'move'
             inequality.inequality.selectable = false
             inequality.showHandles = false
-            this.ineqCnt++
             this.selectedInequality = null
 
             this.$emit('add-inequality', inequality)
@@ -430,7 +426,6 @@ export default {
         //TODO: make distance depend on zoom level
         if (dist < DELETE_INEQUALITY_DISTANCE_THRESHOLD) {
           this.deleteInequality(inequalityGraph)
-          this.ineqCnt--
           break
         }
       }
