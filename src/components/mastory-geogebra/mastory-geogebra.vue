@@ -34,13 +34,13 @@
       name="markOppositeAreaOverlayL2G"
       src="https://storage.googleapis.com/content_storage/shared/swap-area-l2g.svg"
       :visible="false"
-      fixed-size
+      :size="1"
     >
     <img
       name="markOppositeAreaOverlayG2L"
       src="https://storage.googleapis.com/content_storage/shared/swap-area-g2l.svg"
       :visible="false"
-      fixed-size
+      :size="1"
     >
     <slot />
   </vue-geogebra>
@@ -245,14 +245,12 @@ export default {
                   img.x = (handles[0].x + handles[1].x) / 2
                   img.y = (handles[0].y + handles[1].y) / 2
                   img.angle = Math.atan2(inequality.slope, 1) * 180 / Math.PI
+                  const fits = {'≤': 'L2G', '<': 'L2G', '≥': 'G2L', '>': 'G2L'}[inequality.sign[0]] === lg
+                  img.visible = fits
                 }
                 this.$emit('input', value)
               }
               updatePosition()
-              const lg = {'≤': 'L2G', '<': 'L2G', '≥': 'G2L', '>': 'G2L'}[inequality.sign[0]]
-              if (lg) {
-                value[`markOppositeAreaOverlay${lg}`].visible = true
-              }
               this.$emit('input', value)
             }
           }
@@ -301,6 +299,7 @@ export default {
         const ggb = this.value
         if (ggb.inequalities) {
           for (const i of ggb.inequalities) {
+            i.detach()
             i.attach(ggb.api)
           }
         }
