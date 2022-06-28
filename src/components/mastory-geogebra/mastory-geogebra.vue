@@ -300,10 +300,16 @@ export default {
       this.resizeToolbar()
       if (this.value && this.value.api) {
         const ggb = this.value
+        const props = JSON.parse(ggb.api.getViewProperties())
+        this.onZoom(props.invXscale)
         if (ggb.inequalities) {
           for (const i of ggb.inequalities) {
             i.detach()
             i.attach(ggb.api)
+            const handleNames = ['InequalityHandle1', 'InequalityHandle2'].map(tag => i.name.replace('inequalityGraph', tag))
+            handleNames.forEach(name => {
+              ggb[name].color = i.color
+            })
           }
         }
       }
