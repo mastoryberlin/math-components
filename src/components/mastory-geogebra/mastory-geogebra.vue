@@ -54,6 +54,7 @@ import { customTools } from './custom-tools'
 import { colorCycle } from './design'
 
 const DELETE_INEQUALITY_DISTANCE_THRESHOLD = 1
+const MARK_OPPOSITE_AREA_OVERLAY_SIZE = 50
 
 // -------------------------------------------------------------------------
 
@@ -132,7 +133,12 @@ export default {
     // Event Handlers
     // =========================================================================
 
-    onZoom(e) { this.$emit('zoom', e) },
+    onZoom(e) {
+      const { value } = this;
+      ['L2G', 'G2L'].forEach((lg) => { value[`markOppositeAreaOverlay${lg}`].width = MARK_OPPOSITE_AREA_OVERLAY_SIZE * e })
+      this.$emit('input', value)
+      this.$emit('zoom', e)
+    },
     onUndo(e) {
       this.selectedInequality = null
       this.$emit('undo', e)
