@@ -299,19 +299,21 @@ export default {
     onLoad(e) {
       this.resizeToolbar()
       if (this.value && this.value.api) {
-        const ggb = this.value
-        const props = JSON.parse(ggb.api.getViewProperties())
+        const {value} = this
+        const props = JSON.parse(value.api.getViewProperties())
         this.onZoom(props.invXscale)
-        if (ggb.inequalities) {
-          for (const i of ggb.inequalities) {
+        if (value.inequalities) {
+          for (const i of value.inequalities) {
             i.detach()
-            i.attach(ggb.api)
+            i.attach(value.api)
             const handleNames = ['InequalityHandle1', 'InequalityHandle2'].map(tag => i.name.replace('inequalityGraph', tag))
             handleNames.forEach(name => {
-              ggb[name].color = i.color
+              value[name].color = i.color
             })
+            i.showHandles = false
           }
         }
+        for (const lg of ['L2G', 'G2L']) { value[`markOppositeAreaOverlay${lg}`].visible = false  }
       }
       this.$emit('load', e)
     },
