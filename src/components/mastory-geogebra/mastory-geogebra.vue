@@ -308,7 +308,9 @@ export default {
             i.attach(value.api)
             const handleNames = ['InequalityHandle1', 'InequalityHandle2'].map(tag => i.name.replace('inequalityGraph', tag))
             handleNames.forEach(name => {
-              value[name].color = i.color
+              if (value[name]) {
+                value[name].color = i.color
+              }
             })
             i.showHandles = false
           }
