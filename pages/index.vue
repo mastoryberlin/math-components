@@ -3,9 +3,8 @@
     <h1>
       Mastory Math Components
     </h1>
-    <MastoryGeogebra
+    <vue-geogebra
       v-model="ggb"
-      toolbar="move add_inequality delete_inequality destination"
       :view-rect="{ x: [-20, 20], y: [-25, 25], contain: true }"
       :enable-undo-redo="false"
     >
@@ -28,7 +27,7 @@
         a=1
         f(x)=a*x
       </pre> -->
-    </MastoryGeogebra>
+    </vue-geogebra>
   </div>
 </template>
 

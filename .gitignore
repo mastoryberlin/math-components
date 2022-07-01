@@ -1,8 +1,9 @@
 .DS_Store
 node_modules
-/dist
-.nuxt
-pages
+dist/
+.nuxt/
+pages/
+layouts/
 package.json
 package-lock.json
 nuxt.config.js
