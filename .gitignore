@@ -2,6 +2,10 @@
 node_modules
 /dist
 .nuxt
+pages
+package.json
+package-lock.json
+nuxt.config.js
 
 # local env files
 .env.local
