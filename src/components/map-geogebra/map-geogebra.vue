@@ -10,6 +10,7 @@
     />
     <openstreetmap
       v-model="osm"
+      ref="osm"
       container="map"
       class="map-geogebra__stacked map-geogebra__map"
       :class="showMap ? 'show' : 'hide'"
@@ -133,6 +134,9 @@ export default {
       }
     },
     onGeogebraLoad(e) {
+      if (!this.osm) {
+        this.$refs.osm.initialConfig()
+      }
       this.$emit('load', e)
     },
     onPan(viewRect) {
