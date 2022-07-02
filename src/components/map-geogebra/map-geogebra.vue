@@ -1,20 +1,20 @@
 <template lang="html">
   <div
     class="map-geogebra__wrapper"
-    :style="{width: displayWidth + 'px', height: displayHeight + 'px'}"
+    :style="{width: osmWidth + 'px', height: osmHeight + 'px'}"
   >
     <div
       v-if="!transparent"
       class="map-geogebra__background"
-      :style="{width: displayWidth + 'px', height: displayHeight + 'px'}"
+      :style="{width: osmWidth + 'px', height: osmHeight + 'px'}"
     />
     <openstreetmap
       v-model="osm"
       container="map"
       class="map-geogebra__stacked map-geogebra__map"
       :class="showMap ? 'show' : 'hide'"
-      :display-width="displayWidth"
-      :display-height="displayHeight"
+      :display-width="osmWidth"
+      :display-height="osmHeight"
       :flat="!spherical"
       @input="initCoords"
     />
@@ -24,8 +24,8 @@
         :value="value"
         :transparent="true"
         :no-fullscreen="noFullscreen"
-        :display-width="osmWidth"
-        :display-height="osmHeight + 60"
+        :display-width="displayWidth"
+        :display-height="displayHeight"
         :view-rect="viewRect"
         :allow-pan="panConstraint"
         :allow-zoom="zoomConstraint"
@@ -77,8 +77,8 @@ export default {
   },
   props: {
     value: { type: Object, default: () => ({ inputs: {}, outputs: {} }) },
-    displayWidth: { type: [Number, String], default: '100%' },
-    displayHeight: { type: [Number, String], default: 300 },
+    displayWidth: { type: Number, default: 300 },
+    displayHeight: { type: Number, default: 300 },
 
     viewRect: { type: Object, default: () => ({ x: [-50, 50], y: [-50, 50], contain: false }) },
     allowZoom: { type: Array, default: () => [0, 1] },
@@ -94,12 +94,14 @@ export default {
     enableUndoRedo: { type: Boolean, default: true },
     use3d: { type: Boolean, default: false },
   },
-  data: () => ({
-    osm: null,
-    osmWidth: null,
-    osmHeight: null,
-  }),
+  data() {
+    return {
+      osm: null,
+    }
+  },
   computed: {
+    osmWidth() { return this.displayWidth },
+    osmHeight() { return this.displayHeight - 55 },
     panConstraint() {
       // Further constraint user-provided ranges for allowPan to only allow meaningful geocoordinates
       const p = this.allowPan
@@ -112,14 +114,8 @@ export default {
     zoomConstraint() { return this.allowZoom },
   },
   watch: {
-    displayWidth(n) { this.osmWidth = n },
-    displayHeight(n) { this.osmHeight = n },
-  },
-  mounted() {
-    window.addEventListener('resize', () => {
-      this.resize()
-    })
-    this.resize()
+    displayWidth() { this.onResize() },
+    displayHeight() { this.onResize() },
   },
   methods: {
     injectGeogebra(applet) {
@@ -141,32 +137,21 @@ export default {
     },
     onPan(viewRect) {
       const { x, y } = viewRect
-      // const c = r => (r[1] + r[0]) / 2
-      // const center = [c(x), c(y)]
-      const { osm } = this
-      if (osm) {
-        const view = osm.getView()
-        if (view) {
-          const d = this.offset
-          const extent = [x[0] + d.x, y[0] + d.y, x[1] + d.x, y[1] + d.y]
-          view.fit(extent)
-          // view.setCenter(center)
-        } else {
-          console.warn('view is ', view)
-        }
-      } else {
-        console.warn('osm is ', osm)
-      }
+      this.letMapFollowViewRect(x, y)
       this.$emit('pan', viewRect)
     },
     onZoom(level) {
+      const { value: { viewRect: { x, y }} } = this
+      this.letMapFollowViewRect(x, y)
+      this.$emit('zoom', level)
+    },
+    letMapFollowViewRect(xRange, yRange) {
       const { osm } = this
       if (osm) {
         const view = osm.getView()
         if (view) {
-          const { value: { viewRect: { x, y }} } = this
           const d = this.offset
-          const extent = [x[0] + d.x, y[0] + d.y, x[1] + d.x, y[1] + d.y]
+          const extent = [xRange[0] + d.x, yRange[0] + d.y, xRange[1] + d.x, yRange[1] + d.y]
           view.fit(extent)
         } else {
           console.warn('view is ', view)
@@ -174,15 +159,18 @@ export default {
       } else {
         console.warn('osm is ', osm)
       }
-      this.$emit('zoom', level)
     },
-    resize() {
-      const m = document.getElementById('map')
-      if (m) {
-        const s = m.getClientRects()[0]
-        this.osmWidth = s.width
-        this.osmHeight = s.height
-      }
+    onResize() {
+      console.log('onResize called')
+      setTimeout(() => {
+        if (this.osm) {
+          this.osm.setSize([this.osmWidth, this.osmHeight])
+          if (this.value) {
+            const { value: { viewRect: { x, y }} } = this
+            this.letMapFollowViewRect(x, y)
+          }
+        }
+      }, 1500)
     }
   },
 }
@@ -231,29 +219,6 @@ export default {
 }
 .ol-zoom-out {
   display: none !important;
-}
-.GeoGebraFrame {
-  border-radius: 20px;
-}
-.GeoGebraFrame .toolbarPanel {
-  position: absolute !important;
-  background-color: #E6E6E6DE !important;
-  z-index: 2 !important;
-}
-.GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button {
-  border: none !important;
-  background-color: inherit !important;
-  border-radius: 30px !important;
-}
-.GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button[isSelected="true"] {
-  background-color: #4D35C721 !important;
-}
-.ggbtoolbarpanel {
-  margin: 20px !important;
-  border-radius: 50px;
-}
-.gwt-SplitLayoutPanel {
-  position: absolute;
 }
 .ol-attribution {
   display: none !important;

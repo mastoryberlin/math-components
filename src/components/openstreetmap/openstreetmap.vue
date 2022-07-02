@@ -15,11 +15,11 @@ export default {
       default: "map",
     },
     displayWidth: {
-      type: [Number, String],
-      default: "100%",
+      type: Number,
+      default: 300,
     },
     displayHeight: {
-      type: [Number, String],
+      type: Number,
       default: 300,
     },
     allowPan: {
@@ -47,13 +47,13 @@ export default {
   emits: ["input", "change", "change:pan", "change:zoom"],
 
   computed: {
-    width: function () {
+    width() {
       const { displayWidth } = this;
       if (typeof displayWidth === "string") return displayWidth;
       return `${displayWidth}px`;
     },
 
-    height: function () {
+    height() {
       const { displayHeight } = this;
       if (typeof displayHeight === "string") return displayHeight;
       return `${displayHeight}px`;
@@ -78,7 +78,9 @@ export default {
   },
 
   created() {
-    this.setup(this.initialConfig);
+    if (process.client) {
+      this.setup(this.initialConfig)
+    }
   },
 
   methods: {

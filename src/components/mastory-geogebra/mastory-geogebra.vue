@@ -474,9 +474,11 @@ export default {
     resizeToolbar() {
       const toolbarPanel = this.$el.getElementsByClassName('ggbtoolbarpanel')[0]
       if (toolbarPanel) {
-        const toolsCount = this.toolbar.split(/\s+|,/).length + (this.enableUndoRedo ? 2 : 0)
-        const margin = this.enableUndoRedo ? 22 : 10
-        toolbarPanel.style.width = `${toolsCount * 45 + margin}px`
+        if (this.toolbar.constructor === String) {
+          const toolsCount = this.toolbar.split(/\s+|,/).length + (this.enableUndoRedo ? 2 : 0)
+          const margin = this.enableUndoRedo ? 22 : 10
+          toolbarPanel.style.width = `${toolsCount * 45 + margin}px`
+        }
       } else {
         console.warn('Cannot access toolbarpanel - this will likely result in a toolbar size mismatch')
       }
@@ -489,18 +491,13 @@ export default {
 .GeoGebraFrame {
   border-radius: 20px;
 }
-.GeoGebraFrame .toolbarPanel {
-  position: absolute;
-  background-color: #E6E6E6DE;
-  z-index: 2;
-}
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button {
-  border: none;
-  background-color: inherit;
-  border-radius: 30px;
+  border: none !important;
+  background-color: inherit !important;
+  border-radius: 30px !important;
 }
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_button[isSelected="true"] {
-  background-color: #4D35C721;
+  background-color: #4D35C721 !important;
 }
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_submenu .submenuContent .gwt-Label {
   padding: 7px 10px 0 7px !important;
@@ -509,14 +506,19 @@ export default {
 .GeoGebraFrame .toolbarPanel .toolBPanel .toolbar_submenu .submenuContent img {
   display: none;
 }
+.EuclidianPanel {
+  position: relative;
+}
+.GeoGebraFrame .toolbarPanel {
+  position: absolute !important;
+  background-color: #E6E6E6DE !important;
+  z-index: 2 !important;
+}
 .ggbtoolbarpanel {
-  margin: 20px;
+  margin: 20px !important;
   border-radius: 50px;
 }
 .gwt-SplitLayoutPanel {
   position: absolute;
-}
-.EuclidianPanel {
-  position: relative;
 }
 </style>
