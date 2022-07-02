@@ -2,7 +2,7 @@
 node_modules
 dist/
 .nuxt/
-pages/
+pages/*
 layouts/
 package.json
 package-lock.json
