@@ -1,7 +1,12 @@
 .DS_Store
 node_modules
-/dist
-
+dist/
+.nuxt/
+pages/
+layouts/
+package.json
+package-lock.json
+nuxt.config.js
 
 # local env files
 .env.local
