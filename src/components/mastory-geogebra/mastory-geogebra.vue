@@ -135,7 +135,10 @@ export default {
 
     onZoom(e) {
       const { value } = this;
-      ['L2G', 'G2L'].forEach((lg) => { value[`markOppositeAreaOverlay${lg}`].width = MARK_OPPOSITE_AREA_OVERLAY_SIZE * e })
+      ['L2G', 'G2L'].forEach((lg) => {
+        const p = value[`markOppositeAreaOverlay${lg}`]
+        if (p) { p.width = MARK_OPPOSITE_AREA_OVERLAY_SIZE * e }
+      })
       this.$emit('input', value)
       this.$emit('zoom', e)
     },
