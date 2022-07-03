@@ -140,11 +140,13 @@ export default {
       this.$emit('load', e)
     },
     onPan(viewRect) {
+      if (!viewRect) { return }
       const { x, y } = viewRect
       this.letMapFollowViewRect(x, y)
       this.$emit('pan', viewRect)
     },
     onZoom(level) {
+      if (!this.value.viewRect) { return }
       const { value: { viewRect: { x, y }} } = this
       this.letMapFollowViewRect(x, y)
       this.$emit('zoom', level)
