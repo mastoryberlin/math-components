@@ -551,10 +551,11 @@ export default {
     resize() {
       const container = this.$el
       container.style.width = this.displayWidth  + 'px'
-      container.style.height = this.displayHeight + 'px'
+      container.style.height = (this.displayHeight - 54) + 'px'
       if (this.api) { this.api.setHeight(this.displayHeight) }
       const ggbFrame = container.getElementsByClassName('GeoGebraFrame')[0]
       if (ggbFrame) { ggbFrame.style.height = (this.displayHeight - 54) + 'px' }
+      this.onViewChanged()
     },
 
     // -------------------------------------------------------------------------
@@ -760,48 +761,48 @@ export default {
         if (!this.suspendAddListener) {
           this.updateOutputs()
           const objectType = api.getObjectType(objectName)
-          if (!value[objectName]) {
-            let object
-            switch (objectType) {
-              case 'numeric':
-                {
-                  object = new GeogebraNumber(objectName)
-                  object.attach(api, true)
-                }
-                break
-              case 'text':
-                {
-                  object = new Label(objectName)
-                  object.attach(api, true)
-                }
-                break
-              case 'point':
-                {
-                  object = new Point(objectName)
-                  object.attach(api, true)
-                }
-                break
-              case 'line':
-                {
-                  object = new LinearEquation(objectName)
-                  object.attach(api, true)
-                }
-                break
-              case 'inequality':
-                {
-                  object = new LinearInequality(objectName)
-                  object.attach(api, true)
-                }
-                break
-              default:
-                console.warn(`An object of unknown type "${objectType}" added to the Geogebra worksheet`)
-                object = null
-            }
-            value[objectName] = object
-            this.$emit('input', value)
-          } else {
+          if (value[objectName]) {
             console.warn(`An object named "${objectName}" (type ${objectType}) was added to the Geogebra worksheet, but a key of this name already exists in the object bound as v-model.`)
           }
+
+          let object
+          switch (objectType) {
+            case 'numeric':
+              {
+                object = new GeogebraNumber(objectName)
+                object.attach(api, true)
+              }
+              break
+            case 'text':
+              {
+                object = new Label(objectName)
+                object.attach(api, true)
+              }
+              break
+            case 'point':
+              {
+                object = new Point(objectName)
+                object.attach(api, true)
+              }
+              break
+            case 'line':
+              {
+                object = new LinearEquation(objectName)
+                object.attach(api, true)
+              }
+              break
+            case 'inequality':
+              {
+                object = new LinearInequality(objectName)
+                object.attach(api, true)
+              }
+              break
+            default:
+              console.warn(`An object of unknown type "${objectType}" added to the Geogebra worksheet`)
+              object = null
+          }
+          value[objectName] = object
+          this.$emit('input', value)
         }
         this.$emit('add', objectName)
       }
@@ -852,31 +853,37 @@ export default {
     },
 
     onViewChanged() {
-      const {api} = this
-      const props = JSON.parse(api.getViewProperties())
+      const {api, allowZoom, allowPan} = this
+      if (!api) { return }
 
+      const props = JSON.parse(api.getViewProperties())
       let { xMin, yMin } = props
       const { width, height } = props
-      let scale = props.invXscale // ignore invYscale for now - it's anyway the same most of the time
+
+      let scale = (props.invXscale + props.invYscale) / 2 // enforce uniform scaling for now
       let w = width * scale
       let h = height * scale
 
-      const { allowZoom, allowPan } = this
       const invalidViewRect = xMin < allowPan.x[0] || yMin < allowPan.y[0] || xMin + w > allowPan.x[1] || yMin + h > allowPan.y[1]
+      console.log('invalidViewRect!')
 
       if (!this.previousViewProps) {
         // First time this event is fired
+        console.log('previousViewProps is null ->first time this event is fired')
 
         // Check scale and adjust if necessary
-        if (scale < allowZoom[0]) {
-          scale = allowZoom[0]
-        } else if (scale > allowZoom[1]) {
-          scale = allowZoom[1]
-        } else if (invalidViewRect) {
-          scale = (allowZoom[0] + allowZoom[1]) / 2 // last resort: guess a value that has a chance to work out
+        if (invalidViewRect) {
+          if (xMin < allowPan.x[0]) { xMin = allowPan.x[0] }
+          if (yMin < allowPan.y[0]) { yMin = allowPan.y[0] }
+          if (xMin + w > allowPan.x[1]) { w = allowPan.x[1] - xMin }
+          if (yMin + h > allowPan.y[1]) { h = allowPan.y[1] - yMin }
+          scale = 1
+        } else {
+          if (scale < allowZoom[0]) { scale = allowZoom[0] }
+          else if (scale > allowZoom[1]) { scale = allowZoom[1] }
+          w = width * scale
+          h = height * scale
         }
-        w = width * scale
-        h = height * scale
 
         this.previousViewProps = {
           ...props,
@@ -919,21 +926,32 @@ export default {
 
       if (xMin < allowPan.x[0]) {
         xMin = allowPan.x[0]
+        if (xMin + w > allowPan.x[1]) { w = allowPan.x[1] - xMin }
         adjust = true
       } else if (xMin + w > allowPan.x[1]) {
         xMin = allowPan.x[1] - w
+        if (xMin < allowPan.x[0]) {
+          xMin = allowPan.x[0]
+          if (xMin + w > allowPan.x[1]) { w = allowPan.x[1] - xMin }
+        }
         adjust = true
       }
 
       if (yMin < allowPan.y[0]) {
         yMin = allowPan.y[0]
+        if (yMin + h > allowPan.y[1]) { h = allowPan.y[1] - yMin }
         adjust = true
       } else if (yMin + h > allowPan.y[1]) {
         yMin = allowPan.y[1] - h
+        if (yMin < allowPan.y[0]) {
+          yMin = allowPan.y[0]
+          if (yMin + h > allowPan.y[1]) { h = allowPan.y[1] - yMin }
+        }
         adjust = true
       }
 
       if (adjust) {
+        console.log('adjust')
         api.setCoordSystem(xMin, xMin + w, yMin, yMin + h)
       } else {
         this.previousViewProps = props
@@ -949,7 +967,7 @@ export default {
       class: 'ggb-container',
       style: {
         width: displayWidth + 'px',
-        height: displayHeight + 'px',
+        height: (displayHeight - 54) + 'px',
       },
     })
   },

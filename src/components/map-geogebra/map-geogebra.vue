@@ -17,7 +17,7 @@
       :display-width="osmWidth"
       :display-height="osmHeight"
       :flat="!spherical"
-      @input="initCoords"
+      @input="isOsmLoaded = true"
     />
     <div class="map-geogebra__stacked">
       <MastoryGeogebra
@@ -36,7 +36,7 @@
         :enable-undo-redo="enableUndoRedo"
         :use3d="use3d"
         @input="$emit('input', $event)"
-        @load="onGeogebraLoad"
+        @load="isGeogebraLoaded = true"
         @pan="onPan"
         @zoom="onZoom"
         @add="$emit('add', $event)"
@@ -98,11 +98,13 @@ export default {
   data() {
     return {
       osm: null,
+      isOsmLoaded: false,
+      isGeogebraLoaded: false,
     }
   },
   computed: {
     osmWidth() { return this.displayWidth },
-    osmHeight() { return this.displayHeight - 55 },
+    osmHeight() { return this.displayHeight - 54 },
     panConstraint() {
       // Further constraint user-provided ranges for allowPan to only allow meaningful geocoordinates
       const p = this.allowPan
@@ -117,67 +119,80 @@ export default {
   watch: {
     displayWidth() { this.onResize() },
     displayHeight() { this.onResize() },
+    isOsmLoaded(n) { if (n && this.isGeogebraLoaded) {this.init()} },
+    isGeogebraLoaded(n) { if (n && this.isOsmLoaded) {this.init()} },
   },
   methods: {
     injectGeogebra(applet) {
       const div = this.$refs.ggb.$el.getElementsByClassName('ggb-container')[0]
       applet.inject(div.id)
     },
-    initCoords(osm) {
+    init() {
+      // if (!this.osm) {
+      //   this.$refs.osm.initialConfig()
+      // }
       window.ol.proj.useGeographic()
-      const view = osm.getView()
-      if (view) {
-        const { viewRect: { x, y } } = this
-        const d = this.offset
-        const extent = [x[0] + d.x, y[0] + d.y, x[1] + d.x, y[1] + d.y]
-        view.fit(extent)
-      }
-    },
-    onGeogebraLoad(e) {
-      if (!this.osm) {
-        this.$refs.osm.initialConfig()
-      }
-      this.$emit('load', e)
+      this.onResize()
+      this.$emit('load', this.value)
     },
     onPan(viewRect) {
-      if (!viewRect) { return }
-      const { x, y } = viewRect
-      this.letMapFollowViewRect(x, y)
+      this.letMapFollowViewRect()
       this.$emit('pan', viewRect)
     },
     onZoom(level) {
-      if (!this.value.viewRect) { return }
-      const { value: { viewRect: { x, y }} } = this
-      this.letMapFollowViewRect(x, y)
+      this.letMapFollowViewRect()
       this.$emit('zoom', level)
     },
-    letMapFollowViewRect(xRange, yRange) {
+    async letMapFollowViewRect() {
+      if (!this.isOsmLoaded || !this.isGeogebraLoaded) { return }
       const { osm } = this
-      if (osm) {
-        const view = osm.getView()
-        if (view) {
-          const d = this.offset
-          const extent = [xRange[0] + d.x, yRange[0] + d.y, xRange[1] + d.x, yRange[1] + d.y]
-          view.fit(extent)
-        } else {
-          console.warn('view is ', view)
+      if (!osm) {
+        console.warn('letMapFollowViewRect failed! osm is ', osm)
+      }
+      const view = osm.getView()
+      if (!view) {
+        console.warn('letMapFollowViewRect failed! osm.getView() returned ', view)
+      }
+      const d = this.offset
+      const TOLERANCE = 1
+      const extentsDiffer = (a, b) => {
+        if (!a) { return true }
+        const {abs} = Math
+        let d = 0
+        for (let i = 0; i < 4; i++) {
+          d += abs(a[i] - b[i])
         }
-      } else {
-        console.warn('osm is ', osm)
+        console.log(`Comparing extents IS: ${a} and SHOULD: ${b} - different: `, d > 4*TOLERANCE)
+        return d > 4*TOLERANCE
+      }
+      const duration = 10
+      let shouldBe, current
+      while (extentsDiffer(current, shouldBe)) {
+        shouldBe = [this.value.viewRect.x[0] + d.x, this.value.viewRect.y[0] + d.y, this.value.viewRect.x[1] + d.x, this.value.viewRect.y[1] + d.y]
+        const size = osm.getSize()
+        const adjust = () => new Promise(callback => view.fit(shouldBe, {callback, size, duration}))
+        await adjust()
+        current = view.calculateExtent(size)
       }
     },
     onResize() {
-      console.log('onResize called')
-      setTimeout(() => {
-        if (this.osm) {
-          this.osm.setSize([this.osmWidth, this.osmHeight])
-          if (this.value) {
-            const { value: { viewRect: { x, y }} } = this
-            this.letMapFollowViewRect(x, y)
+      if (this.isOsmLoaded && this.isGeogebraLoaded) {
+        this.osm.setSize([this.osmWidth, this.osmHeight])
+        if (!this.value || !this.value.viewRect) { return }
+        const v = this.value.viewRect
+        const x1 = v.x
+        const y1 = v.y
+        setTimeout(() => {
+          const v = this.value.viewRect
+          const x2 = v.x
+          const y2 = v.y
+          if (x1[0] === x2[0] && x1[1] === x2[1] && y1[0] === y2[0] && y1[1] === y2[1]) {
+            // viewRect hasn't changed for a while ->NOW ensureMatchingCoordinates
+            this.letMapFollowViewRect()
           }
-        }
-      }, 1500)
-    }
+        }, 200)
+      }
+    },
   },
 }
 </script>
@@ -203,11 +218,11 @@ export default {
 }
 .map-geogebra__map.show {
   opacity: 1;
-  transition: all 0.75s ease-out;
+  transition: opacity 0.75s ease-out;
 }
 .map-geogebra__map.hide {
   opacity: 0;
-  transition: all 0.75s ease-in;
+  transition: opacity 0.75s ease-in;
 }
 .ol-viewport {
   border-radius: 20px;
