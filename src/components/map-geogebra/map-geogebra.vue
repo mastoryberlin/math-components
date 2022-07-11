@@ -168,7 +168,9 @@ export default {
       const duration = 10
       let shouldBe, current
       while (extentsDiffer(current, shouldBe)) {
-        shouldBe = [this.value.viewRect.x[0] + d.x, this.value.viewRect.y[0] + d.y, this.value.viewRect.x[1] + d.x, this.value.viewRect.y[1] + d.y]
+        const v = this.value.viewRect
+        if (!v) { return }
+        shouldBe = [v.x[0] + d.x, v.y[0] + d.y, v.x[1] + d.x, v.y[1] + d.y]
         const size = osm.getSize()
         const adjust = () => new Promise(callback => view.fit(shouldBe, {callback, size, duration}))
         await adjust()
