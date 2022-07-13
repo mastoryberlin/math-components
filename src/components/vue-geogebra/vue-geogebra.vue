@@ -141,6 +141,37 @@ export default {
 
     // -------------------------------------------------------------------------
 
+    evaluate(definition) {
+      const { api } = this
+      if (typeof definition === 'string') { definition = definition.split('\n') }
+      else if (typeof definition === 'object' && definition.constructor === Object) { definition = Object.entries(definition).map(([key, value]) => `${key} = ${value}`) }
+      definition = definition.map(l => l.trim()).filter(l => l !== '').join('\n')
+      this.suspendAddListener = true
+      const ret = api.evalCommandGetLabels(definition)
+      if (!ret) { return undefined }
+      const newObjects = ret.split(',')
+      this.suspendAddListener = false
+      for (const name of newObjects) {
+        api.setVisible(name, false)
+      }
+      return newObjects.length ? this.get(newObjects[newObjects.length - 1]) : undefined
+    },
+
+    // -------------------------------------------------------------------------
+
+    get(name) {
+      const { api } = this
+      if (!api.exists(name)) { throw new Error(`No object called ${name} defined in the Geogebra worksheet`) }
+      if (!api.isDefined(name)) { return undefined }
+      if (api.getObjectType(name) === 'boolean') {
+        return !!api.getValue(name)
+      } else {
+        return api.getValue(name)
+      }
+    },
+
+    // -------------------------------------------------------------------------
+
     getViewRect() {
       const { xMin, yMin, width, height, invXscale } = JSON.parse(
         this.api.getViewProperties()
@@ -491,6 +522,7 @@ export default {
 
             add(...args) { return _self.add(...args) },
             remove(...args) { return _self.remove(...args) },
+            evaluate(...args) { return _self.evaluate(...args) },
 
             get viewRect() {
               return _self.getViewRect()
@@ -685,6 +717,7 @@ export default {
           break
 
         case 'viewChanged2D': this.onViewChanged(); break
+        case 'viewPropertiesChanged': this.onViewChanged(); break
         case 'dragEnd':
           {
             const object = event[1]
@@ -865,7 +898,6 @@ export default {
       let h = height * scale
 
       const invalidViewRect = xMin < allowPan.x[0] || yMin < allowPan.y[0] || xMin + w > allowPan.x[1] || yMin + h > allowPan.y[1]
-      console.log('invalidViewRect!')
 
       if (!this.previousViewProps) {
         // First time this event is fired

@@ -162,7 +162,6 @@ export default {
         for (let i = 0; i < 4; i++) {
           d += abs(a[i] - b[i])
         }
-        console.log(`Comparing extents IS: ${a} and SHOULD: ${b} - different: `, d > 4*TOLERANCE)
         return d > 4*TOLERANCE
       }
       const duration = 10
