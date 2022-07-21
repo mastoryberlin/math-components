@@ -104,7 +104,7 @@ export default {
     this.instanceNumber = appletsCount
   },
 
-  beforeMount() {
+  mounted() {
     this.setup(this.initialConfig)
   },
 
