@@ -128,9 +128,9 @@ export default {
       applet.inject(div.id)
     },
     init() {
-      // if (!this.osm) {
-      //   this.$refs.osm.initialConfig()
-      // }
+      if (!this.osm) {
+        this.$refs.osm.initialConfig()
+      }
       window.ol.proj.useGeographic()
       this.onResize()
       this.$emit('load', this.value)
